@@ -8,3 +8,9 @@
 /dataSources.local.xml
 
 .idea/*
+
+LOGIN/.gitattributes
+LOGIN/.mvn/
+LOGIN/mvnw
+LOGIN/mvnw.cmd
+LOGIN/pom.xml
