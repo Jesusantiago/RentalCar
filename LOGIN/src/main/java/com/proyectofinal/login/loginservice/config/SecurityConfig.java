@@ -16,6 +16,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll() // Permitir login
                     .requestMatchers(HttpMethod.GET, "/api/users/**").permitAll() // 👈 esto faltaba
                 .anyRequest().authenticated()
 )
