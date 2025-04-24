@@ -32,7 +32,7 @@ public class User {
     private String licenseType;
 
     @Column(nullable = false)
-    private LocalDate DateOfBirth;
+    private LocalDate dateOfBirth;
 
     /* GETTERS AND SETTERS */
     public Long getId() {
@@ -92,11 +92,11 @@ public class User {
     }
 
     public LocalDate getDateOfBirth() {
-        return DateOfBirth;
+        return dateOfBirth;
     }
 
     public void setDateOfBirth(LocalDate fechaNacimiento) {
-        this.DateOfBirth = fechaNacimiento;
+        this.dateOfBirth = fechaNacimiento;
     }
 
     @Override
@@ -108,7 +108,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", tipoLicencia='" + licenseType + '\'' +
-                ", fechaNacimiento=" + DateOfBirth +
+                ", fechaNacimiento=" + dateOfBirth +
                 '}';
     }
 }

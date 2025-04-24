@@ -25,6 +25,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+        System.out.println("hola bb");
         User user = userService.findByEmail(loginRequest.getEmail()).orElse(null);
 
         if (user == null || !user.getPassword().equals(loginRequest.getPassword())) {
