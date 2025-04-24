@@ -3,9 +3,11 @@ package com.proyectofinal.login.loginservice.controller;
 import com.proyectofinal.login.loginservice.model.User;
 import com.proyectofinal.login.loginservice.service.UserService;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,11 +40,28 @@ public class UserController {
 
     // Post - Crear usuario
     @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody User user){
+    public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
+        if (result.hasErrors()) {
+            List<String> errors = result.getFieldErrors()
+                    .stream()
+                    .map(error -> error.getDefaultMessage())
+                    .toList();
+
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+
         Optional<User> existingUser = userService.findByEmail(user.getEmail());
+        Optional<User> existingUsuary = userService.findByUserName(user.getUserName());
+
+        if(existingUsuary.isPresent()){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("El usuario ya existe");
+        }
+
         if(existingUser.isPresent()){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("El usuario ya existe");
         }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
     }
 
