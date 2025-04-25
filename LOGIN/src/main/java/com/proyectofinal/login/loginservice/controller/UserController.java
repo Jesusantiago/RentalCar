@@ -1,6 +1,7 @@
 package com.proyectofinal.login.loginservice.controller;
 
 import com.proyectofinal.login.loginservice.dto.UserDTO;
+import com.proyectofinal.login.loginservice.exception.UserNotFoundException;
 import com.proyectofinal.login.loginservice.model.User;
 import com.proyectofinal.login.loginservice.service.UserService;
 
@@ -50,12 +51,18 @@ public class UserController {
             return ResponseEntity.badRequest().body(errors);
         }
 
+        try{
+            userService.findByEmail(userRequest.getEmail());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Usuario ya existente");
+        } catch (UserNotFoundException e){
 
-        Optional<User> existingUser = userService.findByEmail(userRequest.getEmail());
-        Optional<User> existingUsuary = userService.findByUserName(userRequest.getUserName());
+        }
 
-        if(existingUsuary.isPresent() || existingUser.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El usuario ya existe");
+        try{
+            userService.findByUserName(userRequest.getUserName());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Usuario ya existente");
+        } catch (UserNotFoundException e){
+
         }
 
         User user = new User();

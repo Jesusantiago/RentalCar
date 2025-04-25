@@ -1,5 +1,7 @@
 package com.proyectofinal.login.loginservice.service;
 
+import com.proyectofinal.login.loginservice.exception.UserNameNotFoundException;
+import com.proyectofinal.login.loginservice.exception.UserNotFoundException;
 import com.proyectofinal.login.loginservice.model.User;
 import com.proyectofinal.login.loginservice.repository.UserRepository;
 
@@ -36,12 +38,15 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public Optional<User> findByEmail(String email){
-        return Optional.ofNullable(userRepository.findByEmail(email));
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("Usuario con email: " + email + " no encontrado."));
     }
 
-    public Optional<User> findByUserName(String username){
-        return Optional.ofNullable(userRepository.findByUserName(username));
+    public User findByUserName(String username){
+        return userRepository.findByUserName(username)
+                .orElseThrow(() ->
+                        new UserNameNotFoundException("Usuario con nombre de usuario: " + username + " no encontrado"));
     }
 
 }
