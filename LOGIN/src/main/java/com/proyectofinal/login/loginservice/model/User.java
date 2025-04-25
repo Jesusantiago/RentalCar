@@ -1,9 +1,6 @@
 package com.proyectofinal.login.loginservice.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-
 import java.time.LocalDate;
 
 
@@ -16,28 +13,21 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    @NotBlank(message = "El nombre no puede estar vacío.")
     private String name;
 
     @Column(nullable = false)
-    @NotBlank(message = "El apellido no puede estar vacío.")
     private String lastName;
 
     @Column(nullable = false, unique = true)
-    @Email(message = "Formato de email inválido")
-    @NotBlank(message = "El email no puede estar vacío")
     private String email;
 
     @Column(nullable = false)
-    @NotBlank(message = "La contraseña no puede estar vacía")
     private String password;
 
     @Column(nullable = false, unique = true)
-    @NotBlank(message = "El nombre de usuario no puede estar vacía")
     private String userName;
 
     @Column(nullable = false)
-    @NotBlank(message = "El tipo de licencia no puede estar vacío.")
     private String licenseType;
 
     @Column(nullable = false)

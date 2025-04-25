@@ -1,5 +1,6 @@
 package com.proyectofinal.login.loginservice.controller;
 
+import com.proyectofinal.login.loginservice.dto.UserDTO;
 import com.proyectofinal.login.loginservice.model.User;
 import com.proyectofinal.login.loginservice.service.UserService;
 
@@ -40,27 +41,31 @@ public class UserController {
 
     // Post - Crear usuario
     @PostMapping
-    public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userRequest, BindingResult result) {
         if (result.hasErrors()) {
             List<String> errors = result.getFieldErrors()
                     .stream()
                     .map(error -> error.getDefaultMessage())
                     .toList();
-
             return ResponseEntity.badRequest().body(errors);
         }
 
 
-        Optional<User> existingUser = userService.findByEmail(user.getEmail());
-        Optional<User> existingUsuary = userService.findByUserName(user.getUserName());
+        Optional<User> existingUser = userService.findByEmail(userRequest.getEmail());
+        Optional<User> existingUsuary = userService.findByUserName(userRequest.getUserName());
 
-        if(existingUsuary.isPresent()){
+        if(existingUsuary.isPresent() || existingUser.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("El usuario ya existe");
         }
 
-        if(existingUser.isPresent()){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El usuario ya existe");
-        }
+        User user = new User();
+        user.setName(userRequest.getName());
+        user.setLastName(userRequest.getLastName());
+        user.setEmail(userRequest.getEmail());
+        user.setPassword(userRequest.getPassword());
+        user.setUserName(userRequest.getUserName());
+        user.setLicenseType(userRequest.getLicenseType());
+        user.setDateOfBirth(userRequest.getDateOfBirth());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
     }
