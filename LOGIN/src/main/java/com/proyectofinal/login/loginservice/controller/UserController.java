@@ -1,7 +1,6 @@
 package com.proyectofinal.login.loginservice.controller;
 
 import com.proyectofinal.login.loginservice.dto.UserDTO;
-import com.proyectofinal.login.loginservice.exception.UserNotFoundException;
 import com.proyectofinal.login.loginservice.model.User;
 import com.proyectofinal.login.loginservice.service.UserService;
 
@@ -15,6 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Entrada del servidor.
+ *
+ * @RequestMapping: Ruta http
+ */
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -25,12 +30,15 @@ public class UserController {
     // Get - Todos los usuarios.
     @GetMapping
     public List<User> getUsers() {
+        System.out.println("Entrando al obtener todos");
         return userService.getAllUser();
     }
 
     // Get - Un usuario.
     @GetMapping("/{id}")
     public ResponseEntity<?> getUser(@PathVariable Long id) {
+        System.out.println("Obtener uno solo");
+
         Optional<User> optionalUser = userService.getUserById(id);
 
         if (optionalUser.isPresent()) {
@@ -42,7 +50,9 @@ public class UserController {
 
     // Post - Crear usuario
     @PostMapping
-    public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userRequest, BindingResult result) {
+    public ResponseEntity<?> createUser(@RequestBody UserDTO userRequest,@Valid BindingResult result) {
+
+        // Verifica los datos ingresados con el BindingResult, donde si hay error, nos los presenta y no crea el usuario
         if (result.hasErrors()) {
             List<String> errors = result.getFieldErrors()
                     .stream()
@@ -51,19 +61,9 @@ public class UserController {
             return ResponseEntity.badRequest().body(errors);
         }
 
-        try{
-            userService.findByEmail(userRequest.getEmail());
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Usuario ya existente");
-        } catch (UserNotFoundException e){
-
-        }
-
-        try{
-            userService.findByUserName(userRequest.getUserName());
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Usuario ya existente");
-        } catch (UserNotFoundException e){
-
-        }
+        // Función encargada de lanzar una excepcion si el email o userName ya exiten.
+        // Esta función puede pasar el sistema.
+        userService.checkIfUserExists(userRequest.getEmail(), userRequest.getUserName());
 
         User user = new User();
         user.setName(userRequest.getName());

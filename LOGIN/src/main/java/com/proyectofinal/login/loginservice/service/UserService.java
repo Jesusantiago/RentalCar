@@ -1,5 +1,6 @@
 package com.proyectofinal.login.loginservice.service;
 
+import com.proyectofinal.login.loginservice.exception.EmailAlreadyExistsException;
 import com.proyectofinal.login.loginservice.exception.UserNameNotFoundException;
 import com.proyectofinal.login.loginservice.exception.UserNotFoundException;
 import com.proyectofinal.login.loginservice.model.User;
@@ -48,5 +49,16 @@ public class UserService {
                 .orElseThrow(() ->
                         new UserNameNotFoundException("Usuario con nombre de usuario: " + username + " no encontrado"));
     }
+
+    public void checkIfUserExists(String email, String username) {
+        if (userRepository.findByEmail(email).isPresent()) {
+            throw new EmailAlreadyExistsException("Ya existe un usuario con el email: " + email);
+        }
+
+        if (userRepository.findByUserName(username).isPresent()) {
+            throw new UserNameNotFoundException("Ya existe un usuario con el username: " + username);
+        }
+    }
+
 
 }

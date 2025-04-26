@@ -10,5 +10,4 @@ public class LoginserviceApplication {
 		SpringApplication.run(LoginserviceApplication.class, args);
 		System.out.println("Hello World!"	);
 	}
-
 }

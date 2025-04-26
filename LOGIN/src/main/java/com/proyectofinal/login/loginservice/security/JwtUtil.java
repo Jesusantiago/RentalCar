@@ -19,34 +19,45 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private long expirationTime;
 
+    private Key getSigningKey() {
+        return Keys.hmacShaKeyFor(secretKey.getBytes());
+    }
+
     public String generateToken(String email) {
-        Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
         return Jwts.builder()
                 .setSubject(email)
-//                .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
-                .signWith(key,SignatureAlgorithm.HS256)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-//    public String extractEmail(String token) {
-//        return Jwts.parser()
-//                .setSigningKey(secretKey)
-//                .build()
-//                .parseClaimsJws(token)
-//                .getBody()
-//                .getSubject();
-//    }
-//
-//    public Boolean validateToken(String token) {
-//        try {
-//            Jwts.parser()
-//                    .setSigningKey(secretKey)
-//                    .build()
-//                    .parseClaimsJws(token);
-//            return true;
-//        } catch (JwtException | IllegalArgumentException e) {
-//            return false;
-//        }
-//    }
+    public String extractEmail(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJwt(token)
+                .getBody()
+                .getSubject();
+    }
+
+    public Boolean validateToken(String token, String email) {
+        try {
+            String extractedEmail = extractEmail(token);
+            return (extractedEmail.equals(email) && !isTokenExpired(token));
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    public boolean isTokenExpired(String token) {
+        Date expiration = Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJwt(token)
+                .getBody()
+                .getExpiration();
+
+        return expiration.before(new Date());
+
+    }
 }
