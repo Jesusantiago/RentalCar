@@ -49,4 +49,10 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no encontrado.");
         }
     }
+
+    @PostMapping("/logout")
+    private ResponseEntity<String> logout() {
+        return ResponseEntity.status(HttpStatus.OK).body("Cierre de sesión exitoso.");
+    }
+
 }
