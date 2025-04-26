@@ -49,7 +49,7 @@ public class UserController {
     }
 
     // Post - Crear usuario
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody UserDTO userRequest,@Valid BindingResult result) {
 
         // Verifica los datos ingresados con el BindingResult, donde si hay error, nos los presenta y no crea el usuario

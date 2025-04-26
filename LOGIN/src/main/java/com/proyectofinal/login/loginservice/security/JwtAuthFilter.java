@@ -1,4 +1,5 @@
 package com.proyectofinal.login.loginservice.security;
+import com.proyectofinal.login.loginservice.security.CustomUserDetail;
 
 import com.proyectofinal.login.loginservice.model.User;
 import com.proyectofinal.login.loginservice.service.UserService;
@@ -20,47 +21,59 @@ import java.util.List;
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    @Autowired
     private JwtUtil jwtUtil;
-    private final UserService userService;
 
-    private static final List<String> EXCLUDE_URLS = List.of(
-            "/api/auth/login",
-            "/h2-console",
-            "/h2-console/",
-            "/h2-console/**",
-            "/api/users" // si quieres también el registro
-    );
-
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        String path = request.getRequestURI();
-        return EXCLUDE_URLS.stream().anyMatch(path::startsWith);
-    }
-
-    public JwtAuthFilter(JwtUtil jwtUtil, UserService userService) {
-        this.userService = userService;
+    public JwtAuthFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authHeader = request.getHeader("Authorization");
+        String token = getTokenFromHeader(request);
+        System.out.println("Authorization Header: " + token);
+        if (token != null) {
+            String username = jwtUtil.extractEmail(token);
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring(7);
-            String email = jwtUtil.extractEmail(token);
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                if (jwtUtil.validateToken(token, username)) {
+                    CustomUserDetail userDetails = new CustomUserDetail(username);
 
-            if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                if (jwtUtil.validateToken(token, email)) {
-                    UsernamePasswordAuthenticationToken usernamePassAuthFilter = new UsernamePasswordAuthenticationToken(email,null,null);
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                    usernamePassAuthFilter.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                    SecurityContextHolder.getContext().setAuthentication(usernamePassAuthFilter);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
-
             }
         }
+
+        filterChain.doFilter(request, response);
+    }
+
+    private String getTokenFromHeader(HttpServletRequest httpSR){
+        String header = httpSR.getHeader("Authorization");
+        if (header != null && header.startsWith("Bearer ")) {
+            return header.substring(7);
+        }
+        return null;
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+//        String method = request.getMethod();
+//
+//        // Excluir loginy H2 Console
+//        if (path.startsWith("/api/auth/login") || path.startsWith("/h2-console")) {
+//            return true;
+//        }
+//
+//        // Excluir solo POST /api/users/register
+//        if (path.equals("/api/users/register") && method.equals("POST")) {
+//            return true;
+//        }
+
+//        return false;
+
+        return path.equals("/api/auth/login") || path.equals("/api/users/register") || path.startsWith("/h2-console");
     }
 }
