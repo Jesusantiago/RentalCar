@@ -15,3 +15,6 @@ LOGIN/mvnw
 LOGIN/mvnw.cmd
 LOGIN/pom.xml
 /out/
+
+
+httpLogin.http
