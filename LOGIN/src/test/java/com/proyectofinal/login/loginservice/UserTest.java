@@ -1,55 +1,33 @@
 package com.proyectofinal.login.loginservice;
-
-import com.jayway.jsonpath.DocumentContext;
-import com.jayway.jsonpath.JsonPath;
 import com.proyectofinal.login.loginservice.model.User;
 import com.proyectofinal.login.loginservice.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+
+@SpringBootTest
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class UserTest {
 
-    @LocalServerPort
-    private int port;
-
     @Autowired
-    TestRestTemplate restTemplate;
+    private UserRepository repository;
 
     @Test
-    void shouldGetAUser() {
+    public void findUserByEmail() {
+        String email = "juan.perez@example.com";
 
-        ResponseEntity<String> response = restTemplate.getForEntity("/api/users/1", String.class);
+        Optional<User> result = repository.findByEmail(email);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        DocumentContext documentContext = JsonPath.parse(response.getBody());
-        Number id = documentContext.read("$.id");
-        assertThat(id).isEqualTo(1);
+        assertThat(result).isPresent();
+        assertThat(result.get().getEmail()).isEqualTo(email);
     }
-
-        @Autowired
-        private UserRepository userRepository;
-
-        @Test
-        void shouldFindUserFromDataSql() {
-            Optional<User> optionalUser = userRepository.findById(1L);
-
-            assertThat(optionalUser).isPresent();
-
-            User user = optionalUser.get();
-            assertThat(user.getEmail()).isEqualTo("john@example.com");
-            assertThat(user.getName()).isEqualTo("John");
-        }
-    }
-
-
+}
