@@ -50,17 +50,3 @@ public class SecurityConfig {
     }
 
 }
-
-
-
-
-//.authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/h2-console/**").permitAll()
-//                        .requestMatchers("/api/auth/login").permitAll() // Permitir login
-//                        .requestMatchers(HttpMethod.POST, "/api/users/**").permitAll()
-/// /                    .requestMatchers(HttpMethod.GET, "/api/users/**").permitAll() // 👈 esto faltaba
-//                .anyRequest().authenticated()
-//)
-//                .headers(headers -> headers
-//                        .frameOptions(frame -> frame.sameOrigin()) // ✅ forma correcta en Spring Security 6
-//                )
