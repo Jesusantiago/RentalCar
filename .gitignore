@@ -1,20 +1,62 @@
-# Default ignored files
-/shelf/
-/.idea/workspace.xml
-# Editor-based HTTP Client requests
-/httpRequests/
-# Datasource local storage ignored files
-/dataSources/
-/dataSources.local.xml
+# Archivos y carpetas generados por Maven en cualquier microservicio
+Login/target/
+Back/target/
+*/target/
 
-.idea/*
+# Maven Wrapper
+Login/.mvn/
+Back/.mvn/
+*/.mvn/
+!*/.mvn/wrapper/maven-wrapper.jar
 
-LOGIN/.gitattributes
-LOGIN/.mvn/
-LOGIN/mvnw
-LOGIN/mvnw.cmd
-LOGIN/pom.xml
-/out/
+# Archivos comunes y temporales
+Login/HELP.md
+Back/HELP.md
+*/HELP.md
 
+# IDEs: IntelliJ IDEA
+Login/.idea/
+Back/.idea/
+*/.idea/
+*.iml
+*.iws
+*.ipr
+*/out/
+.idea/
+.idea/**/*
+
+# Para carpeta out/
+out/
+**/out/
+
+# Maven Wrapper executables
+*/mvnw
+*/mvnw.cmd
+**/mvnw
+**/mvnw.cmd
+
+# Spring Tool Suite (STS)
+*.classpath
+*.project
+*.factorypath
+*.settings
+.apt_generated
+.springBeans
+.sts4-cache
+
+# NetBeans
+*/nbproject/private/
+*/nbbuild/
+*/dist/
+*/nbdist/
+*/.nb-gradle/
+*/build/
+
+# VS Code
+*/.vscode/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
 
 httpLogin.http
