@@ -3,13 +3,15 @@ package com.proyectofinal.car.model;
 import com.proyectofinal.car.enums.StatusCar;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table
 public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long car_id;
+    private Long carId;
 
     @Column(nullable = false)
     private String brand;
@@ -27,17 +29,21 @@ public class Car {
     private StatusCar status;
 
     @ManyToOne
-    @JoinColumn(name = "branch_id", nullable = false)
-    private Branch branch_id;
+    @JoinColumn(nullable = false)
+    private Branch branch;
 
-    // GETTERS AND SETTERS
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
+    private List<Rental> listRentals;
 
-    public Long getCar_id() {
-        return car_id;
+
+// GETTERS AND SETTERS
+
+    public Long getCarId() {
+        return carId;
     }
 
-    public void setCar_id(Long car_id) {
-        this.car_id = car_id;
+    public void setCarId(Long car_id) {
+        this.carId = car_id;
     }
 
     public String getBrand() {
@@ -80,11 +86,19 @@ public class Car {
         this.status = status;
     }
 
-    public Branch getBranchId() {
-        return branch_id;
+    public Branch getBranch() {
+        return branch;
     }
 
-    public void setBranchId(Branch branchId) {
-        this.branch_id = branchId;
+    public void setBranch(Branch branch_id) {
+        this.branch = branch_id;
+    }
+
+    public List<Rental> getRentals() {
+        return listRentals;
+    }
+
+    public void setRentals(List<Rental> rentals) {
+        this.listRentals = rentals;
     }
 }
