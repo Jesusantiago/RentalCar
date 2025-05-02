@@ -22,18 +22,26 @@ Back/.idea/
 *.iws
 *.ipr
 */out/
+<<<<<<< HEAD
+=======
+*.idea
+.idea/*
+>>>>>>> FIX Reorganize structure and apply global gitignore
 .idea/
 .idea/**/*
 
 # Para carpeta out/
 out/
 **/out/
+<<<<<<< HEAD
 
 # Maven Wrapper executables
 */mvnw
 */mvnw.cmd
 **/mvnw
 **/mvnw.cmd
+=======
+>>>>>>> FIX Reorganize structure and apply global gitignore
 
 # Spring Tool Suite (STS)
 *.classpath
@@ -59,4 +67,9 @@ out/
 .DS_Store
 Thumbs.db
 
-httpLogin.http
+# Maven Wrapper executables
+*/mvnw
+*/mvnw.cmd
+**/mvnw
+**/mvnw.cmd
+
