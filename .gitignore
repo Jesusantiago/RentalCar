@@ -22,6 +22,14 @@ Back/.idea/
 *.iws
 *.ipr
 */out/
+*.idea
+.idea/*
+.idea/
+.idea/**/*
+
+# Para carpeta out/
+out/
+**/out/
 
 # Spring Tool Suite (STS)
 *.classpath
@@ -46,3 +54,9 @@ Back/.idea/
 # Archivos del sistema
 .DS_Store
 Thumbs.db
+
+# Maven Wrapper executables
+*/mvnw
+*/mvnw.cmd
+**/mvnw
+**/mvnw.cmd

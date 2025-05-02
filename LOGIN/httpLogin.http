@@ -1,0 +1,38 @@
+###
+POST http://localhost:8080/api/users/register
+Content-Type: application/json
+
+{
+  "name": "J",
+  "lastName": "F",
+  "email": "jf@example.com",
+  "password": "password123",
+  "userName": "jf",
+  "licenseType": "B",
+  "dateOfBirth": "1995-05-10"
+}
+
+
+###
+GET http://localhost:8080/api/users
+Content-Type: application/json
+
+
+###
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "jf@example.com",
+  "password": "password123"
+}
+
+
+### Para obtener un solo usuario ya logeado
+GET http://localhost:8080/api/users/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZkBleGFtcGxlLmNvbSIsImV4cCI6MTc0NjEyMjkzMn0.rPxV1VvJbSZ_hiTF7Gs-zv50-TUuN7FCntxHqcM4_MQ
+
+### CERRAR SESION
+POST localhost:8080/api/auth/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqZkBleGFtcGxlLmNvbSIsImV4cCI6MTc0NjEwNTEzMH0.SDsBVHxiulzgCL6Kwlv9lh_Aoi1rz0uvKtSTOF0rNP4
+
