@@ -10,13 +10,13 @@ public class Branch {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long branch_id;
+    private Long branchId;
 
     @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
-    private String adrress;
+    private String address;
 
     @Column(nullable = false)
     private String city;
@@ -24,18 +24,26 @@ public class Branch {
     @Column(nullable = false)
     private int phone;
 
-
-    @OneToMany( mappedBy = "branchId", cascade = CascadeType.ALL)
+    @OneToMany( mappedBy = "branch", cascade = CascadeType.ALL)
     private List<Car> cars;
 
-    //GETTERS AND SETTERS
+    @OneToMany(mappedBy = "branchFrom")
+    private List<Rental> rentalsFrom;
 
-    public Long getBranch_id() {
-        return branch_id;
+    @OneToMany(mappedBy = "branchTo")
+    private List<Rental> rentalsTo;
+
+
+
+
+//GETTERS AND SETTERS
+
+    public Long getBranchId() {
+        return branchId;
     }
 
-    public void setBranch_id(Long branch_id) {
-        this.branch_id = branch_id;
+    public void setBranchId(Long branch_id) {
+        this.branchId = branch_id;
     }
 
     public String getName() {
@@ -46,12 +54,12 @@ public class Branch {
         this.name = name;
     }
 
-    public String getAdrress() {
-        return adrress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdrress(String adrress) {
-        this.adrress = adrress;
+    public void setAddress(String adrress) {
+        this.address = adrress;
     }
 
     public String getCity() {
@@ -68,5 +76,29 @@ public class Branch {
 
     public void setPhone(int phone) {
         this.phone = phone;
+    }
+
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
+    }
+
+    public List<Rental> getRentalsFrom() {
+        return rentalsFrom;
+    }
+
+    public void setRentalsFrom(List<Rental> rentalsFrom) {
+        this.rentalsFrom = rentalsFrom;
+    }
+
+    public List<Rental> getRentalsTo() {
+        return rentalsTo;
+    }
+
+    public void setRentalsTo(List<Rental> rentalsTo) {
+        this.rentalsTo = rentalsTo;
     }
 }
