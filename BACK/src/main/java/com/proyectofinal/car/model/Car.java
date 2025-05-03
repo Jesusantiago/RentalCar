@@ -20,7 +20,7 @@ public class Car {
     private String model;
 
     @Column(nullable = false)
-    private int year;
+    private int yearCar;
 
     @Column(nullable = false)
     private String licensePlate;
@@ -62,12 +62,12 @@ public class Car {
         this.model = model;
     }
 
-    public int getYear() {
-        return year;
+    public int getYearCar() {
+        return yearCar;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setYearCar(int year) {
+        this.yearCar = year;
     }
 
     public String getLicensePlate() {
@@ -94,11 +94,11 @@ public class Car {
         this.branch = branch_id;
     }
 
-    public List<Rental> getRentals() {
+    public List<Rental> getListRentals() {
         return listRentals;
     }
 
-    public void setRentals(List<Rental> rentals) {
+    public void setListRentals(List<Rental> rentals) {
         this.listRentals = rentals;
     }
 }
