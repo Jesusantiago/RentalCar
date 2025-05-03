@@ -30,7 +30,7 @@ public class Car {
     private StatusCar status;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "branch_id", nullable = false)
     private Branch branch;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
