@@ -20,7 +20,7 @@ public class Car {
     private String model;
 
     @Column(nullable = false)
-    private int CarYear;
+    private int carYear;
 
     @Column(nullable = false)
     private String licensePlate;
@@ -64,11 +64,11 @@ public class Car {
     }
 
     public int getCarYear() {
-        return CarYear;
+        return carYear;
     }
 
     public void setCarYear(int year) {
-        this.CarYear = year;
+        this.carYear = year;
     }
 
     public String getLicensePlate() {

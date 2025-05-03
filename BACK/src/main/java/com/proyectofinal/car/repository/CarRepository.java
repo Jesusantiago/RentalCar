@@ -22,6 +22,4 @@ public interface CarRepository extends JpaRepository<Car, Long> {
     Page<Car> findAllByBrandAndModel(String brand, String model, Pageable pageable);
     Page<Car> findAllByBranchAndBrandAndModel(Branch branch,String brand, String model, Pageable pageable);
     void deleteCarByLicensePlate(String licensePlate);
-    boolean existsByLicensePlate(String licensePlate);
-
 }
