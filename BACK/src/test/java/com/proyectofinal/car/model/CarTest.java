@@ -47,7 +47,7 @@ public class CarTest {
 
         assertThat("Toyota").isEqualTo(car.getBrand());
         assertThat("Machito").isEqualTo(car.getModel());
-        assertThat(2020).isEqualTo(car.getYear());
+        assertThat(2020).isEqualTo(car.getCarYear());
         assertThat("MPD345").isEqualTo(car.getLicensePlate());
         assertThat(car.getStatus()).isEqualTo(statusCar);
 

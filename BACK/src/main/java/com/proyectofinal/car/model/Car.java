@@ -20,7 +20,7 @@ public class Car {
     private String model;
 
     @Column(nullable = false)
-    private int yearCar;
+    private int CarYear;
 
     @Column(nullable = false)
     private String licensePlate;
@@ -62,12 +62,12 @@ public class Car {
         this.model = model;
     }
 
-    public int getYearCar() {
-        return yearCar;
+    public int getCarYear() {
+        return CarYear;
     }
 
-    public void setYearCar(int year) {
-        this.yearCar = year;
+    public void setCarYear(int year) {
+        this.CarYear = year;
     }
 
     public String getLicensePlate() {
