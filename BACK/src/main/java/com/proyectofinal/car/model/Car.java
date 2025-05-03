@@ -26,6 +26,7 @@ public class Car {
     private String licensePlate;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private StatusCar status;
 
     @ManyToOne

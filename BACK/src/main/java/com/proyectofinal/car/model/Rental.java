@@ -24,6 +24,7 @@ public class Rental {
     private BigDecimal price;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private StatusRental status;
 
     @ManyToOne
