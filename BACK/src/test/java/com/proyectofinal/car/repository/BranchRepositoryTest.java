@@ -114,11 +114,18 @@ public class BranchRepositoryTest {
 
     @Test
     void deleteBranchTest() {
-        Optional<Branch> result = branchRepository.findByNameContainingIgnoreCase("drivefast");
+        Branch b = new Branch();
+        b.setName("TestBranch");
+        b.setAddress(("Av. terciaria 789"));
+        b.setCity("Madrid");
+        b.setPhone(456321789);
+        branchRepository.save(b);
+
+        Optional<Branch> result = branchRepository.findByNameContainingIgnoreCase("TestBranch");
         assertThat(result).isPresent();
 
         branchRepository.delete(result.get());
-        Optional<Branch> result2 = branchRepository.findByNameContainingIgnoreCase("drivefast");
+        Optional<Branch> result2 = branchRepository.findByNameContainingIgnoreCase("TestBranch");
         assertThat(result2).isNotPresent();
     }
 
