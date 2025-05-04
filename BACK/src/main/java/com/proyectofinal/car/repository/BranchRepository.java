@@ -14,6 +14,6 @@ public interface BranchRepository extends JpaRepository<Branch, Long> {
     Optional<Branch> findByNameContainingIgnoreCase(String name);
     Optional<Branch> findByAddressContainingIgnoreCase(String address);
     Optional<Branch> findByCityContainingIgnoreCase(String city);
-    Optional<Branch> findByPhone(int phone);
+    Optional<Branch> findByPhone(String phone);
 }
 
