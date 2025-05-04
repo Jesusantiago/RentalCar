@@ -22,19 +22,28 @@ public class CarService {
     }
 
     public Page<CarPreviewDTO> getAvailableCars(int page, int size, String sortBy, String direction) {
-        Sort sort = direction.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
-        Pageable pageable = PageRequest.of(page, size, sort);
-        Page<Car> availableCars = carRepository.findAllByStatus(StatusCar.AVAILABLE, pageable);
+        Pageable pageable;
 
-        return availableCars.map(car ->
+        if (sortBy != null && !sortBy.equals("")) {
+            Sort sort = direction.equalsIgnoreCase("desc") ?
+                    Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+            pageable = PageRequest.of(page, size, sort);
+        } else {
+            pageable = PageRequest.of(page, size);
+        }
+
+        return carRepository.findAllByStatus(StatusCar.AVAILABLE, pageable)
+            .map(car ->
                 new CarPreviewDTO(
-                        car.getCarId(),
-                        car.getModel(),
-                        car.getBrand(),
-                        car.getBranch().getCity(),
-                        car.getBranch().getName()
+                    car.getCarId(),
+                    car.getModel(),
+                    car.getBrand(),
+                    car.getBranch().getCity(),
+                    car.getBranch().getName()
                 )
-        );
+            );
+
+
     }
 
 }
