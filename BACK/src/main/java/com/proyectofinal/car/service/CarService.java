@@ -51,6 +51,8 @@ public class CarService {
 
     public CarDetailsDTO getCarById(Long id) {
         Car car = carRepository.findById(id).orElse(null);
+        if (car == null) return null;
+
         Branch branchCar = car.getBranch();
         CarBranchDetailsDTO dataBranchForACar = new CarBranchDetailsDTO(
                 branchCar.getBranchId(),
