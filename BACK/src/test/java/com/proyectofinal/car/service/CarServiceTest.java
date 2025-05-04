@@ -53,15 +53,20 @@ public class CarServiceTest {
     @Test
     void getAvailableCars_checkDataWithSort(){
         Page<CarPreviewDTO> result = carService.getAvailableCars(0, 10, "model", "asc" );
+
+        // Extraemos los modelos
         List<String> actualModels = result.getContent()
                 .stream()
                 .map(CarPreviewDTO::getModel)
                 .collect(Collectors.toList());
 
+        // Hacemos una copia y la ordenamos manualmente para comparar
         List<String> expectedSortedModels = new ArrayList<>(actualModels);
         expectedSortedModels.sort(Comparator.naturalOrder());
 
+        // Comprobamos que el orden es el esperado
         assertThat(actualModels).isEqualTo(expectedSortedModels);
+    }
     }
 
     @Test
@@ -77,6 +82,10 @@ public class CarServiceTest {
     }
 
     @Test
+    void getCarById_noShouldNullOrEmpty() {
+        CarDetailsDTO car = carService.getCarById(1L);
+        assertThat(car).isNotNull();
+    @Test
     void getCarById_shouldReturnCar() {
         CarDetailsDTO car = carService.getCarById(1L);
         assertThat(car).isNotNull();
@@ -88,8 +97,6 @@ public class CarServiceTest {
         assertThat(car.getBranch().getAddress()).isEqualTo("Av. Principal 123");
         assertThat(car.getBranch().getPhone()).isEqualTo("123456789");
     }
-
-
 
 
 }
