@@ -22,8 +22,11 @@ public class CarController {
     @GetMapping
     public ResponseEntity<Page<CarPreviewDTO>> getAvailableCars(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        Page<CarPreviewDTO> availableCars = carService.getAvailableCars(page,size);
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "brand") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction
+            ) {
+        Page<CarPreviewDTO> availableCars = carService.getAvailableCars(page,size,sortBy,direction);
         return ResponseEntity.ok(availableCars);
     }
 
