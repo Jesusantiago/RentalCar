@@ -1,7 +1,10 @@
 package com.proyectofinal.car.service;
 
+import com.proyectofinal.car.dto.CarBranchDetailsDTO;
+import com.proyectofinal.car.dto.CarDetailsDTO;
 import com.proyectofinal.car.dto.CarPreviewDTO;
 import com.proyectofinal.car.enums.StatusCar;
+import com.proyectofinal.car.model.Branch;
 import com.proyectofinal.car.model.Car;
 import com.proyectofinal.car.repository.CarRepository;
 import org.springframework.data.domain.Page;
@@ -44,6 +47,26 @@ public class CarService {
             );
 
 
+    }
+
+    public CarDetailsDTO getCarById(Long id) {
+        Car car = carRepository.findById(id).orElse(null);
+        Branch branchCar = car.getBranch();
+        CarBranchDetailsDTO dataBranchForACar = new CarBranchDetailsDTO(
+                branchCar.getBranchId(),
+                branchCar.getName(),
+                branchCar.getAddress(),
+                branchCar.getCity(),
+                branchCar.getPhone()
+        );
+        return new CarDetailsDTO(
+                car.getCarId(),
+                car.getBrand(),
+                car.getModel(),
+                car.getCarYear(),
+                car.getLicensePlate(),
+                dataBranchForACar
+        );
     }
 
 }
