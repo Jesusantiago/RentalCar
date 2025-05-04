@@ -30,7 +30,7 @@ public class BranchTest {
         b.setName("AutoCon");
         b.setAddress("Av. Principal");
         b.setCity("Merida");
-        b.setPhone(123456789);
+        b.setPhone("123456789");
         b.setCars(cars);
 
         car.setBranch(b);
@@ -51,7 +51,7 @@ public class BranchTest {
         assertThat("AutoCon").isEqualTo(b.getName());
         assertThat("Av. Principal").isEqualTo(b.getAddress());
         assertThat("Merida").isEqualTo(b.getCity());
-        assertThat(123456789).isEqualTo(b.getPhone());
+        assertThat("123456789").isEqualTo(b.getPhone());
 
         assertThat(b.getCars()).isNotNull();
         assertThat("Toyota").isEqualTo(b.getCars().get(0).getBrand());

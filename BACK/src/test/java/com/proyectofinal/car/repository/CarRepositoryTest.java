@@ -49,7 +49,7 @@ public class CarRepositoryTest {
         branch1.setName("AutoCon");
         branch1.setAddress("Av. Principal");
         branch1.setCity("Merida");
-        branch1.setPhone(123456789);
+        branch1.setPhone("123456789");
         branchRepository.save(branch1);
 
         Car car = new Car();
@@ -210,6 +210,5 @@ public class CarRepositoryTest {
         carRepository.deleteCarByLicensePlate("791-KLM");
         Optional<Car> carOptional = carRepository.findCarByLicensePlate("791-KLM");
         assertThat(carOptional).isNotPresent();
-
     }
 }
