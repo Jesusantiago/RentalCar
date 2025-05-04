@@ -70,6 +70,25 @@ public class CarServiceTest {
         assertThat(car).isNotNull();
     }
 
+    @Test
+    void getCarById_shouldFailTest(){
+        CarDetailsDTO car = carService.getCarById(100L);
+        assertThat(car).isNull();
+    }
+
+    @Test
+    void getCarById_shouldReturnCar() {
+        CarDetailsDTO car = carService.getCarById(1L);
+        assertThat(car).isNotNull();
+        assertThat(car.getBrand()).isEqualTo("Toyota");
+        assertThat(car.getModel()).isEqualTo("Supra");
+        assertThat(car.getCarYear()).isEqualTo(2020);
+        assertThat(car.getLicensePlate()).isEqualTo("123-ABC");
+        assertThat(car.getBranch().getName()).isEqualTo("AutoCon");
+        assertThat(car.getBranch().getAddress()).isEqualTo("Av. Principal 123");
+        assertThat(car.getBranch().getPhone()).isEqualTo("123456789");
+    }
+
 
 
 
