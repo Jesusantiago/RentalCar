@@ -21,7 +21,7 @@ INSERT INTO car (brand, model, car_year, license_plate, status, branch_id) VALUE
    ('Toyota', 'Corolla', 2020, '792-NOP', 'AVAILABLE', 2);
 
 -- Insertar Rentals
-INSERT INTO rental (start_date, end_date, price, status, car_id, cliente_id, branch_from_id, branch_to_id) VALUES
+INSERT INTO rental (start_date, end_date, price, status, car_id, client_id, branch_from_id, branch_to_id) VALUES
    ('2025-05-01 10:00:00', '2025-05-07 10:00:00', 250.00, 'ACTIVE', 1, 101, 1, 2),
    ('2025-05-02 11:00:00', '2025-05-08 11:00:00', 180.00, 'ACTIVE', 2, 102, 1, 3),
    ('2025-05-03 12:00:00', '2025-05-09 12:00:00', 200.00, 'ACTIVE', 3, 103, 2, 4),
