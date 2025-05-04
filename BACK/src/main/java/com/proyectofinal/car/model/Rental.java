@@ -32,7 +32,7 @@ public class Rental {
     private Car car;
 
     @Column(nullable = false)
-    private Long clienteId;
+    private Long clientId;
 
     @ManyToOne
     @JoinColumn(name = "branch_from_id", nullable = false)
@@ -94,12 +94,12 @@ public class Rental {
         this.car = car;
     }
 
-    public Long getClienteId() {
-        return clienteId;
+    public Long getClientId() {
+        return clientId;
     }
 
-    public void setClienteId(Long clienteId) {
-        this.clienteId = clienteId;
+    public void setClientId(Long clienteId) {
+        this.clientId = clienteId;
     }
 
     public Branch getBranchFrom() {
