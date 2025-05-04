@@ -22,7 +22,7 @@ public class Branch {
     private String city;
 
     @Column(nullable = false)
-    private int phone;
+    private String phone;
 
     @OneToMany( mappedBy = "branch", cascade = CascadeType.ALL)
     private List<Car> cars;
@@ -70,11 +70,11 @@ public class Branch {
         this.city = city;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
