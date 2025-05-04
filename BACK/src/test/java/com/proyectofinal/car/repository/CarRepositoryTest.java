@@ -140,8 +140,7 @@ public class CarRepositoryTest {
 
         assertThat(result).isNotNull();
         assertThat(result.getContent()).isNotEmpty();
-        assertThat(result.getContent().get(0).getModel()).isEqualTo("Supra");
-
+        assertThat(result).allMatch(car -> car.getStatus() == StatusCar.AVAILABLE);
     }
 
     @Test
