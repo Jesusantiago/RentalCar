@@ -45,7 +45,7 @@ public class RentalTest {
         r.setEndDate(dateTomorrow);
         r.setPrice(BigDecimal.valueOf(100));
         r.setStatus(StatusRental.ACTIVE);
-        r.setClienteId(1L);
+        r.setClientId(1L);
         r.setCar(car);
         r.setBranchFrom(b1);
         r.setBranchTo(b2);
@@ -54,7 +54,7 @@ public class RentalTest {
         assertThat(r.getStartDate()).isEqualTo(dateToday);
         assertThat(r.getEndDate()).isEqualTo(dateTomorrow);
         assertThat(r.getStatus()).isEqualTo(StatusRental.ACTIVE);
-        assertThat(r.getClienteId()).isEqualTo(1L);
+        assertThat(r.getClientId()).isEqualTo(1L);
         assertThat(r.getCar()).isNotNull();
         assertThat(r.getCar().getBrand()).isEqualTo("Toyota");
         assertThat(r.getBranchFrom()).isNotNull();
