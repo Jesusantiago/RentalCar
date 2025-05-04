@@ -27,13 +27,13 @@ public class RentalTest {
         b1.setName("AutoCon");
         b1.setAddress("Av. Principal");
         b1.setCity("Merida");
-        b1.setPhone(123456789);
+        b1.setPhone("123456789");
 
         Branch b2 = new Branch();
         b2.setName("MiAuto");
         b2.setAddress("Av. Secundaria");
         b2.setCity("Madrid");
-        b2.setPhone(987654321);
+        b2.setPhone("987654321");
 
         car.setBranch(b1);
         LocalDateTime dateToday = LocalDateTime.now();

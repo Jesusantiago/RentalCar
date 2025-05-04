@@ -29,7 +29,7 @@ public class BranchRepositoryTest {
         assertThat(b.getName()).isEqualTo("AutoCon");
         assertThat(b.getAddress()).isEqualTo("Av. Principal 123");
         assertThat(b.getCity()).isEqualTo("Merida");
-        assertThat(b.getPhone()).isEqualTo(123456789);
+        assertThat(b.getPhone()).isEqualTo("123456789");
     }
 
     @Test
@@ -70,12 +70,12 @@ public class BranchRepositoryTest {
 
     @Test
     void returnABranchByPhoneTest() {
-        Optional<Branch> result = branchRepository.findByPhone(123456789);
+        Optional<Branch> result = branchRepository.findByPhone("123456789");
         assertThat(result).isPresent();
         assertThat(result.get().getName()).isEqualTo("AutoCon");
         assertThat(result.get().getAddress()).isEqualTo("Av. Principal 123");
         assertThat(result.get().getCity()).isEqualTo("Merida");
-        assertThat(result.get().getPhone()).isEqualTo(123456789);
+        assertThat(result.get().getPhone()).isEqualTo("123456789");
     }
 
     @Test
@@ -84,7 +84,7 @@ public class BranchRepositoryTest {
         b.setName("WildCar");
         b.setAddress("Av. terciaria 789");
         b.setCity("Madrid");
-        b.setPhone(456321789);
+        b.setPhone("456321789");
         branchRepository.save(b);
 
         Optional<Branch> result = branchRepository.findById(b.getBranchId());
@@ -94,7 +94,7 @@ public class BranchRepositoryTest {
         assertThat(result.get().getName()).isEqualTo("WildCar");
         assertThat(result.get().getAddress()).isEqualTo("Av. terciaria 789");
         assertThat(result.get().getCity()).isEqualTo("Madrid");
-        assertThat(result.get().getPhone()).isEqualTo(456321789);
+        assertThat(result.get().getPhone()).isEqualTo("456321789");
     }
 
     @Test
@@ -118,7 +118,7 @@ public class BranchRepositoryTest {
         b.setName("TestBranch");
         b.setAddress(("Av. terciaria 789"));
         b.setCity("Madrid");
-        b.setPhone(456321789);
+        b.setPhone("456321789");
         branchRepository.save(b);
 
         Optional<Branch> result = branchRepository.findByNameContainingIgnoreCase("TestBranch");

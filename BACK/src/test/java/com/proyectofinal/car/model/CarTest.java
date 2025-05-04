@@ -24,7 +24,7 @@ public class CarTest {
         branch.setName("AutoCon");
         branch.setAddress("Av principal");
         branch.setCity("Merida");
-        branch.setPhone(123456789);
+        branch.setPhone("123456789");
 
         Car car = new Car();
         car.setBrand("Toyota");
