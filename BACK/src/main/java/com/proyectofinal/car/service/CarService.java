@@ -6,6 +6,7 @@ import com.proyectofinal.car.dto.CarPreviewDTO;
 import com.proyectofinal.car.enums.StatusCar;
 import com.proyectofinal.car.exception.CarNotFoundException;
 import com.proyectofinal.car.exception.NoAvailableCarsException;
+import com.proyectofinal.car.exception.NoCarsFoundByModelException;
 import com.proyectofinal.car.model.Branch;
 import com.proyectofinal.car.model.Car;
 import com.proyectofinal.car.repository.CarRepository;
@@ -14,8 +15,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CarService {
@@ -26,16 +25,18 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
-    public Page<CarPreviewDTO> getAvailableCars(int page, int size, String sortBy, String direction) {
-        Pageable pageable;
-
-        if (sortBy != null && !sortBy.equals("")) {
-            Sort sort = direction.equalsIgnoreCase("desc") ?
-                    Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
-            pageable = PageRequest.of(page, size, sort);
-        } else {
-            pageable = PageRequest.of(page, size);
+    private Pageable buildPageable(int page, int size, String sortBy, String direction) {
+        if (sortBy != null && !sortBy.isEmpty()) {
+            Sort sort = direction.equalsIgnoreCase("desc")
+                    ? Sort.by(sortBy).descending()
+                    : Sort.by(sortBy).ascending();
+            return PageRequest.of(page, size, sort);
         }
+        return PageRequest.of(page, size);
+    }
+
+    public Page<CarPreviewDTO> getAvailableCars(int page, int size, String sortBy, String direction) {
+        Pageable pageable = buildPageable(page, size, sortBy, direction);
 
         Page<Car> cars = carRepository.findAllByStatus(StatusCar.AVAILABLE, pageable);
 
@@ -79,4 +80,24 @@ public class CarService {
         );
     }
 
+    public Page<CarPreviewDTO> findAllByModel(int page, int size, String sortBy, String direction, String model) {
+        Pageable pageable  = buildPageable(page, size, sortBy, direction);
+
+        Page<Car> cars = carRepository.findAllByModel(model, pageable);
+
+        if (cars.isEmpty()){
+            throw new NoCarsFoundByModelException("Car with model " + model + " not found");
+        }
+
+        return cars.map(car ->
+                new CarPreviewDTO(
+                        car.getCarId(),
+                        car.getModel(),
+                        car.getBrand(),
+                        car.getBranch().getCity(),
+                        car.getBranch().getName()
+                )
+        );
+
+    }
 }
