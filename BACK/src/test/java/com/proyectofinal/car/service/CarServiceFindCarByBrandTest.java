@@ -8,10 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Comparator;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Fail.fail;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -27,13 +25,17 @@ public class CarServiceFindCarByBrandTest {
 
     @Test
     void carService_testFindCarByBrand() {
-        Page<CarPreviewDTO> result = assertDoesNotThrow(() ->
-                carService.findAllByBrand(0, 10 , null, null, goodBrand));
+        Page<CarPreviewDTO> result = null;
+
+        try {
+            result = carService.findAllByBrand(0, 10 , null, null, goodBrand);
+        } catch (NoCarsFoundByBrandException e) {
+            fail("Exception was thrown " + e.getMessage());
+        }
 
         assertThat(result.getTotalElements()).isEqualTo(4);
 
-        assertThat(result.map(car ->
-                car.getBrand() == goodBrand));
+        assertThat(result.getContent()).allMatch(e -> e.getBrand().equals(goodBrand));
     }
 
     @Test
