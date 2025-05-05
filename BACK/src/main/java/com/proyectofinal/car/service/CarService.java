@@ -80,33 +80,77 @@ public class CarService {
     public Page<CarPreviewDTO> searchAvailableCars(
             int page, int size, String sortBy,
             String direction, String model, String brand, Integer carYear) {
+
         Pageable pageable = buildPageable(page, size, sortBy, direction);
 
-        List<Car> allAvailableCars = carRepository.findAllByStatus(StatusCar.AVAILABLE, Pageable.unpaged()).getContent();
+        Page<Car> result;
 
-        List<Car> filtered = allAvailableCars.stream()
-            .filter(car -> (model == null || car.getModel().equalsIgnoreCase(model)))
-            .filter(car -> (brand == null || car.getBrand().equalsIgnoreCase(brand)))
-            .filter(car -> (carYear == null || car.getCarYear() == carYear))
-            .toList();
+        if (model != null && brand != null && carYear != null) {
+            result = carRepository.findByBrandAndModelAndCarYearAndStatus(brand, model, carYear, StatusCar.AVAILABLE, pageable);
+        } else if (model != null && brand != null) {
+            result = carRepository.findByBrandAndModelAndStatus(brand, model, StatusCar.AVAILABLE, pageable);
+        } else if (model != null && carYear != null) {
+            result = carRepository.findByModelAndCarYearAndStatus(model, carYear, StatusCar.AVAILABLE, pageable);
+        } else if (brand != null && carYear != null) {
+            result = carRepository.findByBrandAndCarYearAndStatus(brand, carYear, StatusCar.AVAILABLE, pageable);
+        } else if (model != null) {
+            result = carRepository.findByModelAndStatus(model, StatusCar.AVAILABLE, pageable);
+        } else if (brand != null) {
+            result = carRepository.findByBrandAndStatus(brand, StatusCar.AVAILABLE, pageable);
+        } else if (carYear != null) {
+            result = carRepository.findByCarYearAndStatus(carYear, StatusCar.AVAILABLE, pageable);
+        } else {
+            result = carRepository.findAllByStatus(StatusCar.AVAILABLE, pageable);
+        }
 
-        if (filtered.isEmpty()) throw new CarNotFoundException("Cars not found");
+        if (result.isEmpty()) {
+            throw new CarNotFoundException("Cars not found");
+        }
 
-        int start = (int) pageable.getOffset();
-        int end = Math.min(start + pageable.getPageSize(), filtered.size());
-        List<Car> paginated = filtered.subList(start, end);
+        List<CarPreviewDTO> dtoList = result.stream()
+                .map(car -> new CarPreviewDTO(
+                        car.getCarId(),
+                        car.getModel(),
+                        car.getBrand(),
+                        car.getBranch().getCity(),
+                        car.getBranch().getName()
+                )).toList();
 
-        List<CarPreviewDTO> dtoList = paginated.stream().map(car -> new CarPreviewDTO(
-                car.getCarId(),
-                car.getModel(),
-                car.getBrand(),
-                car.getBranch().getCity(),
-                car.getBranch().getName()
-        )).toList();
-
-
-        return new PageImpl<>(dtoList, pageable, filtered.size());
+        return new PageImpl<>(dtoList, pageable, result.getTotalElements());
     }
+
+
+
+//    public Page<CarPreviewDTO> searchAvailableCars(
+//            int page, int size, String sortBy,
+//            String direction, String model, String brand, Integer carYear) {
+//        Pageable pageable = buildPageable(page, size, sortBy, direction);
+//
+//        List<Car> allAvailableCars = carRepository.findAllByStatus(StatusCar.AVAILABLE, Pageable.unpaged()).getContent();
+//
+//        List<Car> filtered = allAvailableCars.stream()
+//            .filter(car -> (model == null || car.getModel().equalsIgnoreCase(model)))
+//            .filter(car -> (brand == null || car.getBrand().equalsIgnoreCase(brand)))
+//            .filter(car -> (carYear == null || car.getCarYear() == carYear))
+//            .toList();
+//
+//        if (filtered.isEmpty()) throw new CarNotFoundException("Cars not found");
+//
+//        int start = (int) pageable.getOffset();
+//        int end = Math.min(start + pageable.getPageSize(), filtered.size());
+//        List<Car> paginated = filtered.subList(start, end);
+//
+//        List<CarPreviewDTO> dtoList = paginated.stream().map(car -> new CarPreviewDTO(
+//                car.getCarId(),
+//                car.getModel(),
+//                car.getBrand(),
+//                car.getBranch().getCity(),
+//                car.getBranch().getName()
+//        )).toList();
+//
+//
+//        return new PageImpl<>(dtoList, pageable, filtered.size());
+//    }
 
 
 
