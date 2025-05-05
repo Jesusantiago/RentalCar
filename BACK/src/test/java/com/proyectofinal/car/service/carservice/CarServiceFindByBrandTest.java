@@ -1,7 +1,8 @@
-package com.proyectofinal.car.service;
+package com.proyectofinal.car.service.carservice;
 
 import com.proyectofinal.car.dto.CarPreviewDTO;
 import com.proyectofinal.car.exception.NoCarsFoundByBrandException;
+import com.proyectofinal.car.service.CarService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ActiveProfiles("test")
 @SpringBootTest
-public class CarServiceFindCarByBrandTest {
+public class CarServiceFindByBrandTest {
 
     @Autowired
     private CarService carService;
