@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -24,18 +25,18 @@ public class CarServiceFindCarByModelTest {
 
     @Test
     void carService_findCarByModel() {
-        Page<CarPreviewDTO> result =  assertDoesNotThrow(() ->
-                carService.findAllByModel(0, 10, null, null, "Supra"));
+        Page<CarPreviewDTO> result = null;
+
+        try{
+            result = carService.findAllByModel(0, 10, null, null, "Supra");
+        } catch (NoCarsFoundByModelException e) {
+            fail("Exception was thrown" + e.getMessage());
+        }
 
         assertThat(result.getTotalElements()).isEqualTo(2);
 
-        CarPreviewDTO car1 = result.getContent().get(0);
-        CarPreviewDTO car2 = result.getContent().get(1);
-
-        assertThat(car1.getModel()).isEqualTo("Supra");
-        assertThat(car2.getModel()).isEqualTo("Supra");
-        assertThat(car1.getBrand()).isEqualTo("Toyota");
-        assertThat(car2.getBrand()).isEqualTo("Toyota");
+        assertThat(result.getContent()).allMatch(e -> e.getModel().equals("Supra"));
+        assertThat(result.getContent()).allMatch(e -> e.getBrand().equals("Toyota"));
     }
 
     @Test
