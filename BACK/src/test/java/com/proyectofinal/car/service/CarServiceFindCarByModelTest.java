@@ -8,22 +8,27 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Comparator;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ActiveProfiles("test")
 @SpringBootTest
-public class CarService_findCarByModel {
+public class CarServiceFindCarByModelTest {
 
     @Autowired
     private CarService carService;
 
     @Test
     void carService_findCarByModel() {
-        assertDoesNotThrow(() -> carService.findAllByModel(0, 10, null, null, "Supra"));
+        Page<CarPreviewDTO> result =  assertDoesNotThrow(() ->
+                carService.findAllByModel(0, 10, null, null, "Supra"));
 
-        Page<CarPreviewDTO> result = carService.findAllByModel(0, 10, null, null, "Supra");
+        assertThat(result.getTotalElements()).isEqualTo(2);
+
         CarPreviewDTO car1 = result.getContent().get(0);
         CarPreviewDTO car2 = result.getContent().get(1);
 
@@ -47,4 +52,14 @@ public class CarService_findCarByModel {
                 carService.findAllByModel(0, 10, null, null, model));
         assertThat(exc.getMessage()).isEqualTo("Car with model " + model + " not found");
     }
+
+    @Test
+    void carService_shouldReturnCarsSortedByBrandDesc() {
+        Page<CarPreviewDTO> result = carService.findAllByModel(0, 10, "licensePlate", "desc", "Supra");
+
+        List<CarPreviewDTO> content = result.getContent();
+        assertThat(content).isSortedAccordingTo(Comparator.comparing(CarPreviewDTO::getBrand).reversed());
+    }
+
+
 }
