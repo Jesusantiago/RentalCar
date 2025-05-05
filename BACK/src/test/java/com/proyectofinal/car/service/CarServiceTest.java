@@ -2,7 +2,10 @@ package com.proyectofinal.car.service;
 
 import com.proyectofinal.car.dto.CarDetailsDTO;
 import com.proyectofinal.car.dto.CarPreviewDTO;
+import com.proyectofinal.car.exception.CarNotFoundException;
+import com.proyectofinal.car.exception.NoAvailableCarsException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -14,6 +17,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -21,6 +27,7 @@ public class CarServiceTest {
 
     @Autowired
     private CarService carService;
+    private Executable CarNotFoundException;
 
     @Test
     void getAvailableCars_shouldNotBeEmpty() {
@@ -46,8 +53,7 @@ public class CarServiceTest {
 
     @Test
     void getAvailableCars__shouldReturnEmptyPage_WhenPageNumberIsTooHigh(){
-        Page<CarPreviewDTO> result = carService.getAvailableCars(1,10, null, null );
-        assertThat(result).isEmpty();
+        assertThrows(NoAvailableCarsException.class, () -> carService.getAvailableCars(1,10, null, null));
     }
 
     @Test
@@ -72,8 +78,13 @@ public class CarServiceTest {
 
     @Test
     void getCarById_shouldFailTest(){
-        CarDetailsDTO car = carService.getCarById(100L);
-        assertThat(car).isNull();
+        assertThrows(CarNotFoundException.class, () -> carService.getCarById(99L));
+    }
+    @Test
+    void getCarById_shouldFailTest_WithMessage(){
+        Long id = 99L;
+        CarNotFoundException exc = assertThrows(CarNotFoundException.class, () -> carService.getCarById(id));
+        assertEquals(exc.getMessage(), "Car with id " + id + " not found");
     }
 
     @Test
