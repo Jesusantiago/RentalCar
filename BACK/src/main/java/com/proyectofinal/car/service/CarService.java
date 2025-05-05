@@ -4,6 +4,8 @@ import com.proyectofinal.car.dto.CarBranchDetailsDTO;
 import com.proyectofinal.car.dto.CarDetailsDTO;
 import com.proyectofinal.car.dto.CarPreviewDTO;
 import com.proyectofinal.car.enums.StatusCar;
+import com.proyectofinal.car.exception.CarNotFoundException;
+import com.proyectofinal.car.exception.NoAvailableCarsException;
 import com.proyectofinal.car.model.Branch;
 import com.proyectofinal.car.model.Car;
 import com.proyectofinal.car.repository.CarRepository;
@@ -35,8 +37,13 @@ public class CarService {
             pageable = PageRequest.of(page, size);
         }
 
-        return carRepository.findAllByStatus(StatusCar.AVAILABLE, pageable)
-            .map(car ->
+        Page<Car> cars = carRepository.findAllByStatus(StatusCar.AVAILABLE, pageable);
+
+        if (cars.isEmpty()){
+            throw new NoAvailableCarsException("Car not found");
+        }
+
+        return cars.map(car ->
                 new CarPreviewDTO(
                     car.getCarId(),
                     car.getModel(),
@@ -50,7 +57,8 @@ public class CarService {
     }
 
     public CarDetailsDTO getCarById(Long id) {
-        Car car = carRepository.findById(id).orElse(null);
+        Car car = carRepository.findById(id)
+                .orElseThrow(() -> new CarNotFoundException("Car with id " + id + " not found"));
         if (car == null) return null;
 
         Branch branchCar = car.getBranch();
