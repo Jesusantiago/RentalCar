@@ -8,11 +8,10 @@ import com.proyectofinal.car.exception.*;
 import com.proyectofinal.car.model.Branch;
 import com.proyectofinal.car.model.Car;
 import com.proyectofinal.car.repository.CarRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CarService {
@@ -78,64 +77,98 @@ public class CarService {
         );
     }
 
-    public Page<CarPreviewDTO> findAllByModel(int page, int size, String sortBy, String direction, String model) {
-        Pageable pageable  = buildPageable(page, size, sortBy, direction);
-
-        Page<Car> cars = carRepository.findAllByModel(model, pageable);
-
-        if (cars.isEmpty()){
-            throw new NoCarsFoundByModelException("Car with model " + model + " not found");
-        }
-
-        return cars.map(car ->
-                new CarPreviewDTO(
-                        car.getCarId(),
-                        car.getModel(),
-                        car.getBrand(),
-                        car.getBranch().getCity(),
-                        car.getBranch().getName()
-                )
-        );
-
-    }
-
-    public Page<CarPreviewDTO> findAllByBrand(int page, int size, String sortBy, String direction, String brand) {
+    public Page<CarPreviewDTO> searchAvailableCars(
+            int page, int size, String sortBy,
+            String direction, String model, String brand, Integer carYear) {
         Pageable pageable = buildPageable(page, size, sortBy, direction);
 
-        Page<Car> carsBrand = carRepository.findAllByBrand(brand, pageable);
+        List<Car> allAvailableCars = carRepository.findAllByStatus(StatusCar.AVAILABLE, Pageable.unpaged()).getContent();
 
-        if (carsBrand.isEmpty()){
-            throw new NoCarsFoundByBrandException("Cars with brand " + brand + " no found");
-        }
+        List<Car> filtered = allAvailableCars.stream()
+            .filter(car -> (model == null || car.getModel().equalsIgnoreCase(model)))
+            .filter(car -> (brand == null || car.getBrand().equalsIgnoreCase(brand)))
+            .filter(car -> (carYear == null || car.getCarYear() == carYear))
+            .toList();
 
-        return carsBrand.map(car ->
-                new CarPreviewDTO(
-                        car.getCarId(),
-                        car.getModel(),
-                        car.getBrand(),
-                        car.getBranch().getCity(),
-                        car.getBranch().getName()
-                )
-        );
+        if (filtered.isEmpty()) throw new CarNotFoundException("Cars not found");
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min(start + pageable.getPageSize(), filtered.size());
+        List<Car> paginated = filtered.subList(start, end);
+
+        List<CarPreviewDTO> dtoList = paginated.stream().map(car -> new CarPreviewDTO(
+                car.getCarId(),
+                car.getModel(),
+                car.getBrand(),
+                car.getBranch().getCity(),
+                car.getBranch().getName()
+        )).toList();
+
+
+        return new PageImpl<>(dtoList, pageable, filtered.size());
     }
 
-    public Page<CarPreviewDTO> findAllByCarYear(int page, int size, String sortBy, String direction, int carYear) {
-        Pageable pageable = buildPageable(page, size, sortBy, direction);
 
-        Page<Car> carsByCarYear = carRepository.findAllByCarYear(carYear, pageable);
 
-        if (carsByCarYear.isEmpty()){
-            throw new NoCarsFoundByCarYearException("Cars not found by year" + carYear);
-        }
 
-        return carsByCarYear.map(car ->
-                new CarPreviewDTO(
-                        car.getCarId(),
-                        car.getModel(),
-                        car.getBrand(),
-                        car.getBranch().getCity(),
-                        car.getBranch().getName()
-                )
-        );
-    }
+//    public Page<CarPreviewDTO> findAllByModel(int page, int size, String sortBy, String direction, String model) {
+//        Pageable pageable  = buildPageable(page, size, sortBy, direction);
+//
+//        Page<Car> cars = carRepository.findAllByModel(model, pageable);
+//
+//        if (cars.isEmpty()){
+//            throw new NoCarsFoundByModelException("Car with model " + model + " not found");
+//        }
+//
+//        return cars.map(car ->
+//                new CarPreviewDTO(
+//                        car.getCarId(),
+//                        car.getModel(),
+//                        car.getBrand(),
+//                        car.getBranch().getCity(),
+//                        car.getBranch().getName()
+//                )
+//        );
+//
+//    }
+//
+//    public Page<CarPreviewDTO> findAllByBrand(int page, int size, String sortBy, String direction, String brand) {
+//        Pageable pageable = buildPageable(page, size, sortBy, direction);
+//
+//        Page<Car> carsBrand = carRepository.findAllByBrand(brand, pageable);
+//
+//        if (carsBrand.isEmpty()){
+//            throw new NoCarsFoundByBrandException("Cars with brand " + brand + " no found");
+//        }
+//
+//        return carsBrand.map(car ->
+//                new CarPreviewDTO(
+//                        car.getCarId(),
+//                        car.getModel(),
+//                        car.getBrand(),
+//                        car.getBranch().getCity(),
+//                        car.getBranch().getName()
+//                )
+//        );
+//    }
+//
+//    public Page<CarPreviewDTO> findAllByCarYear(int page, int size, String sortBy, String direction, int carYear) {
+//        Pageable pageable = buildPageable(page, size, sortBy, direction);
+//
+//        Page<Car> carsByCarYear = carRepository.findAllByCarYear(carYear, pageable);
+//
+//        if (carsByCarYear.isEmpty()){
+//            throw new NoCarsFoundByCarYearException("Cars not found by year" + carYear);
+//        }
+//
+//        return carsByCarYear.map(car ->
+//                new CarPreviewDTO(
+//                        car.getCarId(),
+//                        car.getModel(),
+//                        car.getBrand(),
+//                        car.getBranch().getCity(),
+//                        car.getBranch().getName()
+//                )
+//        );
+//    }
 }

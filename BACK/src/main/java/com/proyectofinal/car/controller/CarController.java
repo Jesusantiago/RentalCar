@@ -36,39 +36,54 @@ public class CarController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/{model}")
-    public ResponseEntity<Page<CarPreviewDTO>> getAvailableCarsByModel(
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<CarPreviewDTO>> searchAvailableCars(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String sortBy,
             @RequestParam(defaultValue = "asc") String direction,
-            @PathVariable("model") String model
+            @RequestParam(required = false) String model,
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) Integer carYear
     ){
-        Page<CarPreviewDTO> result = carService.findAllByModel(page, size, sortBy, direction, model);
+        Page<CarPreviewDTO> result = carService.searchAvailableCars(page,size,sortBy,direction,model,brand,carYear);
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/{brand}")
-    public ResponseEntity<Page<CarPreviewDTO>> getAvailableCarsByBrand(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String sortBy,
-            @RequestParam(defaultValue = "asc") String direction,
-            @PathVariable("brand") String brand
-    ){
-        Page<CarPreviewDTO> result = carService.findAllByBrand(page, size, sortBy, direction, brand);
-        return ResponseEntity.ok(result);
-    }
-
-    @GetMapping("/{carYear}")
-    public ResponseEntity<Page<CarPreviewDTO>> getAvailableCarsByYear(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String sortBy,
-            @RequestParam(defaultValue = "asc") String direction,
-            @PathVariable("carYear") int carYear
-    ){
-        Page<CarPreviewDTO> result = carService.findAllByCarYear(page, size, sortBy, direction, carYear);
-        return ResponseEntity.ok(result);
-    }
+//    @GetMapping("/{model}")
+//    public ResponseEntity<Page<CarPreviewDTO>> getAvailableCarsByModel(
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "10") int size,
+//            @RequestParam(required = false) String sortBy,
+//            @RequestParam(defaultValue = "asc") String direction,
+//            @PathVariable("model") String model
+//    ){
+//        Page<CarPreviewDTO> result = carService.findAllByModel(page, size, sortBy, direction, model);
+//        return ResponseEntity.ok(result);
+//    }
+//
+//    @GetMapping("/{brand}")
+//    public ResponseEntity<Page<CarPreviewDTO>> getAvailableCarsByBrand(
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "10") int size,
+//            @RequestParam(required = false) String sortBy,
+//            @RequestParam(defaultValue = "asc") String direction,
+//            @PathVariable("brand") String brand
+//    ){
+//        Page<CarPreviewDTO> result = carService.findAllByBrand(page, size, sortBy, direction, brand);
+//        return ResponseEntity.ok(result);
+//    }
+//
+//    @GetMapping("/{carYear}")
+//    public ResponseEntity<Page<CarPreviewDTO>> getAvailableCarsByYear(
+//            @RequestParam(defaultValue = "0") int page,
+//            @RequestParam(defaultValue = "10") int size,
+//            @RequestParam(required = false) String sortBy,
+//            @RequestParam(defaultValue = "asc") String direction,
+//            @PathVariable("carYear") int carYear
+//    ){
+//        Page<CarPreviewDTO> result = carService.findAllByCarYear(page, size, sortBy, direction, carYear);
+//        return ResponseEntity.ok(result);
+//    }
 }
