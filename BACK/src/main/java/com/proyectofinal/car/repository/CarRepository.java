@@ -21,7 +21,13 @@ public interface CarRepository extends JpaRepository<Car, Long>, JpaSpecificatio
     void deleteCarByLicensePlate(String licensePlate);
 
 //  Metodos para usuario final
-    Page<Car> searchAvailableCars(String brand, String model, Integer year, Pageable pageable);
+    Page<Car> findByBrandAndModelAndCarYearAndStatus(String brand, String model, Integer carYear, StatusCar status, Pageable pageable);
+    Page<Car> findByBrandAndModelAndStatus(String brand, String model, StatusCar status, Pageable pageable);
+    Page<Car> findByModelAndCarYearAndStatus(String model, Integer carYear, StatusCar status, Pageable pageable);
+    Page<Car> findByBrandAndCarYearAndStatus(String brand, Integer carYear, StatusCar status, Pageable pageable);
+    Page<Car> findByModelAndStatus(String model, StatusCar status, Pageable pageable);
+    Page<Car> findByBrandAndStatus(String brand, StatusCar status, Pageable pageable);
+    Page<Car> findByCarYearAndStatus(Integer carYear, StatusCar status, Pageable pageable);
 
 //  Mismos metodos para usuario final, pero individual
 //  Page<Car> findAllByBrand(String brand, Pageable pageable);
