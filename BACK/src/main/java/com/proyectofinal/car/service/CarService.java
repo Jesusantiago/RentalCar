@@ -4,10 +4,7 @@ import com.proyectofinal.car.dto.CarBranchDetailsDTO;
 import com.proyectofinal.car.dto.CarDetailsDTO;
 import com.proyectofinal.car.dto.CarPreviewDTO;
 import com.proyectofinal.car.enums.StatusCar;
-import com.proyectofinal.car.exception.CarNotFoundException;
-import com.proyectofinal.car.exception.NoAvailableCarsException;
-import com.proyectofinal.car.exception.NoCarsFoundByBrandException;
-import com.proyectofinal.car.exception.NoCarsFoundByModelException;
+import com.proyectofinal.car.exception.*;
 import com.proyectofinal.car.model.Branch;
 import com.proyectofinal.car.model.Car;
 import com.proyectofinal.car.repository.CarRepository;
@@ -112,6 +109,26 @@ public class CarService {
         }
 
         return carsBrand.map(car ->
+                new CarPreviewDTO(
+                        car.getCarId(),
+                        car.getModel(),
+                        car.getBrand(),
+                        car.getBranch().getCity(),
+                        car.getBranch().getName()
+                )
+        );
+    }
+
+    public Page<CarPreviewDTO> findAllByCarYear(int page, int size, String sortBy, String direction, int carYear) {
+        Pageable pageable = buildPageable(page, size, sortBy, direction);
+
+        Page<Car> carsByCarYear = carRepository.findAllByCarYear(carYear, pageable);
+
+        if (carsByCarYear.isEmpty()){
+            throw new NoCarsFoundByCarYearException("Cars not found by year" + carYear);
+        }
+
+        return carsByCarYear.map(car ->
                 new CarPreviewDTO(
                         car.getCarId(),
                         car.getModel(),

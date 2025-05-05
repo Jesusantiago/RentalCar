@@ -59,4 +59,16 @@ public class CarController {
         Page<CarPreviewDTO> result = carService.findAllByBrand(page, size, sortBy, direction, brand);
         return ResponseEntity.ok(result);
     }
+
+    @GetMapping("/{carYear}")
+    public ResponseEntity<Page<CarPreviewDTO>> getAvailableCarsByYear(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(defaultValue = "asc") String direction,
+            @PathVariable("carYear") int carYear
+    ){
+        Page<CarPreviewDTO> result = carService.findAllByCarYear(page, size, sortBy, direction, carYear);
+        return ResponseEntity.ok(result);
+    }
 }
