@@ -6,6 +6,7 @@ import com.proyectofinal.car.dto.CarPreviewDTO;
 import com.proyectofinal.car.enums.StatusCar;
 import com.proyectofinal.car.exception.CarNotFoundException;
 import com.proyectofinal.car.exception.NoAvailableCarsException;
+import com.proyectofinal.car.exception.NoCarsFoundByBrandException;
 import com.proyectofinal.car.exception.NoCarsFoundByModelException;
 import com.proyectofinal.car.model.Branch;
 import com.proyectofinal.car.model.Car;
@@ -99,5 +100,25 @@ public class CarService {
                 )
         );
 
+    }
+
+    public Page<CarPreviewDTO> findAllByBrand(int page, int size, String sortBy, String direction, String brand) {
+        Pageable pageable = buildPageable(page, size, sortBy, direction);
+
+        Page<Car> carsBrand = carRepository.findAllByBrand(brand, pageable);
+
+        if (carsBrand.isEmpty()){
+            throw new NoCarsFoundByBrandException("Cars with brand " + brand + " no found");
+        }
+
+        return carsBrand.map(car ->
+                new CarPreviewDTO(
+                        car.getCarId(),
+                        car.getModel(),
+                        car.getBrand(),
+                        car.getBranch().getCity(),
+                        car.getBranch().getName()
+                )
+        );
     }
 }

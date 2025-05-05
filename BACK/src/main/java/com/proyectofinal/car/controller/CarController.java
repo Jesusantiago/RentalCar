@@ -17,7 +17,7 @@ public class CarController {
         this.carService = carService;
     }
 
-    // Obtiene todos los autos disponible (PANTALLA PRINCIPAL)
+    // Obtiene todos los autos disponibles (PANTALLA PRINCIPAL)
     @GetMapping
     public ResponseEntity<Page<CarPreviewDTO>> getAvailableCars(
             @RequestParam(defaultValue = "0") int page,
@@ -45,6 +45,18 @@ public class CarController {
             @PathVariable("model") String model
     ){
         Page<CarPreviewDTO> result = carService.findAllByModel(page, size, sortBy, direction, model);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/{brand}")
+    public ResponseEntity<Page<CarPreviewDTO>> getAvailableCarsByBrand(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(defaultValue = "asc") String direction,
+            @PathVariable("brand") String brand
+    ){
+        Page<CarPreviewDTO> result = carService.findAllByBrand(page, size, sortBy, direction, brand);
         return ResponseEntity.ok(result);
     }
 }

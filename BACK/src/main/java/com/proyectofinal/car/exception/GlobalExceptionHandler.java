@@ -19,7 +19,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(NoCarsFoundByModelException.class)
-    public ResponseEntity<String> handleNofoundCars(NoCarsFoundByModelException e) {
+    public ResponseEntity<String> handleNofoundCarsByModel(NoCarsFoundByModelException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    @ExceptionHandler(NoCarsFoundByBrandException.class)
+    public ResponseEntity<String> handleNotFoundCarsByBrand(NoCarsFoundByBrandException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 }
