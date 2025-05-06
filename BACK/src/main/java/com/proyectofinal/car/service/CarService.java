@@ -8,7 +8,9 @@ import com.proyectofinal.car.exception.*;
 import com.proyectofinal.car.model.Branch;
 import com.proyectofinal.car.model.Car;
 import com.proyectofinal.car.repository.CarRepository;
+import com.proyectofinal.car.util.CarSpecifications;
 import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -79,44 +81,30 @@ public class CarService {
 
     public Page<CarPreviewDTO> searchAvailableCars(
             int page, int size, String sortBy,
-            String direction, String model, String brand, Integer carYear) {
+            String direction, String brand,
+            String model, String branch, Integer carYear) {
 
         Pageable pageable = buildPageable(page, size, sortBy, direction);
 
-        Page<Car> result;
+        Specification<Car> spec = CarSpecifications.filterBy(brand, model, branch, carYear, StatusCar.AVAILABLE);
 
-        if (model != null && brand != null && carYear != null) {
-            result = carRepository.findByBrandAndModelAndCarYearAndStatus(brand, model, carYear, StatusCar.AVAILABLE, pageable);
-        } else if (model != null && brand != null) {
-            result = carRepository.findByBrandAndModelAndStatus(brand, model, StatusCar.AVAILABLE, pageable);
-        } else if (model != null && carYear != null) {
-            result = carRepository.findByModelAndCarYearAndStatus(model, carYear, StatusCar.AVAILABLE, pageable);
-        } else if (brand != null && carYear != null) {
-            result = carRepository.findByBrandAndCarYearAndStatus(brand, carYear, StatusCar.AVAILABLE, pageable);
-        } else if (model != null) {
-            result = carRepository.findByModelAndStatus(model, StatusCar.AVAILABLE, pageable);
-        } else if (brand != null) {
-            result = carRepository.findByBrandAndStatus(brand, StatusCar.AVAILABLE, pageable);
-        } else if (carYear != null) {
-            result = carRepository.findByCarYearAndStatus(carYear, StatusCar.AVAILABLE, pageable);
-        } else {
-            result = carRepository.findAllByStatus(StatusCar.AVAILABLE, pageable);
-        }
+        Page<Car> cars = carRepository.findAll(spec, pageable);
 
-        if (result.isEmpty()) {
+        if (cars.isEmpty()) {
             throw new CarNotFoundException("Cars not found");
         }
 
-        List<CarPreviewDTO> dtoList = result.stream()
+        List<CarPreviewDTO> dtoList = cars.getContent().stream()
                 .map(car -> new CarPreviewDTO(
                         car.getCarId(),
                         car.getModel(),
                         car.getBrand(),
                         car.getBranch().getCity(),
                         car.getBranch().getName()
-                )).toList();
+                ))
+                .toList();
 
-        return new PageImpl<>(dtoList, pageable, result.getTotalElements());
+        return new PageImpl<>(dtoList, pageable, cars.getTotalElements());
     }
 
 

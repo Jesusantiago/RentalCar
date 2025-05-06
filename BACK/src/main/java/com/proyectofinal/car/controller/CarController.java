@@ -43,11 +43,12 @@ public class CarController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String sortBy,
             @RequestParam(defaultValue = "asc") String direction,
-            @RequestParam(required = false) String model,
             @RequestParam(required = false) String brand,
+            @RequestParam(required = false) String model,
+            @RequestParam(required = false) String branch,
             @RequestParam(required = false) Integer carYear
     ){
-        Page<CarPreviewDTO> result = carService.searchAvailableCars(page,size,sortBy,direction,model,brand,carYear);
+        Page<CarPreviewDTO> result = carService.searchAvailableCars(page,size,sortBy,direction,brand,model,branch,carYear);
         return ResponseEntity.ok(result);
     }
 

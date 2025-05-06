@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -21,13 +23,19 @@ public interface CarRepository extends JpaRepository<Car, Long>, JpaSpecificatio
     void deleteCarByLicensePlate(String licensePlate);
 
 //  Metodos para usuario final
-    Page<Car> findByBrandAndModelAndCarYearAndStatus(String brand, String model, Integer carYear, StatusCar status, Pageable pageable);
-    Page<Car> findByBrandAndModelAndStatus(String brand, String model, StatusCar status, Pageable pageable);
-    Page<Car> findByModelAndCarYearAndStatus(String model, Integer carYear, StatusCar status, Pageable pageable);
-    Page<Car> findByBrandAndCarYearAndStatus(String brand, Integer carYear, StatusCar status, Pageable pageable);
-    Page<Car> findByModelAndStatus(String model, StatusCar status, Pageable pageable);
-    Page<Car> findByBrandAndStatus(String brand, StatusCar status, Pageable pageable);
-    Page<Car> findByCarYearAndStatus(Integer carYear, StatusCar status, Pageable pageable);
+
+
+
+
+
+
+//    Page<Car> findByBrandAndModelAndCarYearAndStatus(String brand, String model, Integer carYear, StatusCar status, Pageable pageable);
+//    Page<Car> findByBrandAndModelAndStatus(String brand, String model, StatusCar status, Pageable pageable);
+//    Page<Car> findByModelAndCarYearAndStatus(String model, Integer carYear, StatusCar status, Pageable pageable);
+//    Page<Car> findByBrandAndCarYearAndStatus(String brand, Integer carYear, StatusCar status, Pageable pageable);
+//    Page<Car> findByModelAndStatus(String model, StatusCar status, Pageable pageable);
+//    Page<Car> findByBrandAndStatus(String brand, StatusCar status, Pageable pageable);
+//    Page<Car> findByCarYearAndStatus(Integer carYear, StatusCar status, Pageable pageable);
 
 //  Mismos metodos para usuario final, pero individual
 //  Page<Car> findAllByBrand(String brand, Pageable pageable);
