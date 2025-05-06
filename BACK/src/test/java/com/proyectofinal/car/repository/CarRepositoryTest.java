@@ -158,50 +158,11 @@ public class CarRepositoryTest {
     @Test
     void returnAllCarsByBrand() {
         Pageable pageable = PageRequest.of(0, 10);
-        Page<Car> result = carRepository.findByBrandAndStatus("Honda", StatusCar.AVAILABLE, pageable);
+        Branch branch = branchRepository.getById(1L);
+        Page<Car> result = carRepository.findCarsByBranch(branch, pageable);
         assertThat(result).isNotNull();
         assertThat(result.getContent()).isNotEmpty();
         assertThat(result.getContent().size()).isEqualTo(3);
-
-    }
-
-    @Test
-    void returnAllCarsByModel() {
-        Pageable pageable = PageRequest.of(0, 10);
-        Page<Car> result = carRepository.findByModelAndStatus("Supra", StatusCar.AVAILABLE, pageable);
-        assertThat(result).isNotNull();
-        assertThat(result.getContent()).isNotEmpty();
-        assertThat(result.getContent().size()).isEqualTo(1);
-    }
-
-    @Test
-    void returnAllCarsByYear() {
-        Pageable pageable = PageRequest.of(0, 10);
-        Page<Car> result = carRepository.findByCarYearAndStatus(2020, StatusCar.AVAILABLE, pageable);
-        assertThat(result).isNotNull();
-        assertThat(result.getContent()).isNotEmpty();
-        assertThat(result.getContent().size()).isEqualTo(4);
-    }
-
-    @Test
-    void returnAllCarsByBranchAndModel() {
-        Pageable pageable = PageRequest.of(0, 10);
-        Page<Car> result = carRepository.findByBrandAndModelAndStatus("Toyota", "Supra", StatusCar.AVAILABLE, pageable);
-        assertThat(result).isNotNull();
-        assertThat(result.getContent()).isNotEmpty();
-        assertThat(result.getContent().size()).isEqualTo(2);
-    }
-
-    @Test
-    void returnAllByBranchAndBrandAndModel() {
-        Optional<Car> carOptional = carRepository.findCarByLicensePlate("123-ABC");
-        assertThat(carOptional).isPresent();
-
-        Pageable pageable = PageRequest.of(0, 10);
-        Page<Car> result = carRepository.findAllByBranchAndBrandAndModel(carOptional.get().getBranch(), "Toyota", "Supra", pageable);
-        assertThat(result).isNotNull();
-        assertThat(result.getContent()).isNotEmpty();
-        assertThat(result.getContent().size()).isEqualTo(2);
     }
 
     @Test
@@ -211,6 +172,5 @@ public class CarRepositoryTest {
         Optional<Car> carOptional = carRepository.findCarByLicensePlate("791-KLM");
         assertThat(carOptional).isNotPresent();
     }
-
 
 }

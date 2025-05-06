@@ -17,8 +17,6 @@ public class BranchRepositoryTest {
     @Autowired
     private BranchRepository branchRepository;
 
-    @Autowired
-    private CarRepository carRepository;
 
     @Test
     void returnABranchByIdTest() {

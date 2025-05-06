@@ -67,8 +67,4 @@ public class CarServiceFindByAvailableTest {
         assertThat(actualModels).isEqualTo(expectedSortedModels);
     }
 
-
-
-
-
 }

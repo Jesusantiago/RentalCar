@@ -1,9 +1,7 @@
 package com.proyectofinal.car.service.carservice;
 
 import com.proyectofinal.car.dto.CarPreviewDTO;
-import com.proyectofinal.car.enums.StatusCar;
 import com.proyectofinal.car.exception.CarNotFoundException;
-import com.proyectofinal.car.exception.NoCarsFoundByBrandException;
 import com.proyectofinal.car.service.CarService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,7 @@ public class CarServiceFindByBrandTest {
         Page<CarPreviewDTO> result = null;
 
         try {
-            result = carService.searchAvailableCars(0, 10 , null, null, null, goodBrand, null);
+            result = carService.searchAvailableCars(0, 10 , null, null, goodBrand, null, null, null);
         } catch (CarNotFoundException e) {
             fail("Exception was thrown " + e.getMessage());
         }
@@ -43,13 +41,13 @@ public class CarServiceFindByBrandTest {
     @Test
     void carService_shouldReturnExceptionWhenNoCarsFoundByBrand() {
         assertThrows(CarNotFoundException.class, () ->
-                carService.searchAvailableCars(0, 10 , null, null, badBrand, null, null));
+                carService.searchAvailableCars(0, 10 , null, null, badBrand, null, null, null));
     }
 
     @Test
     void carService_shouldReturnExceptionWhenNoCarsFoundByBrand_withMessage() {
         CarNotFoundException exc = assertThrows(CarNotFoundException.class, () ->
-                carService.searchAvailableCars(0, 10 , null, null, badBrand, null, null));
+                carService.searchAvailableCars(0, 10 , null, null, badBrand, null, null, null));
         assertThat(exc.getMessage()).isEqualTo("Cars not found");
     }
 }

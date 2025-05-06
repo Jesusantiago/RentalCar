@@ -3,7 +3,6 @@ package com.proyectofinal.car.service.carservice;
 
 import com.proyectofinal.car.dto.CarPreviewDTO;
 import com.proyectofinal.car.exception.CarNotFoundException;
-import com.proyectofinal.car.exception.NoCarsFoundByCarYearException;
 import com.proyectofinal.car.service.CarService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class CarServiceFindByCarYearTest {
         Page<CarPreviewDTO> result = null;
 
         try {
-            result = carService.searchAvailableCars(0, 10 , null, null, null, null, goodYear);
+            result = carService.searchAvailableCars(0, 10 , null, null, null, null, null, goodYear);
         } catch (CarNotFoundException e) {
             fail("Exception was thrown: " + e.getMessage());
         }
@@ -41,14 +40,14 @@ public class CarServiceFindByCarYearTest {
     @Test
     void carService_shouldReturnExceptionWhenNoCarsFoundByCarYear() {
         assertThrows(CarNotFoundException.class, () -> {
-            carService.searchAvailableCars(0, 10 , null, null, null, null, badYear);
+            carService.searchAvailableCars(0, 10 , null, null, null, null, null, badYear);
         });
     }
 
     @Test
     void carService_shouldReturnExceptionWhenNoCarsFoundByYear_withMessage() {
         CarNotFoundException exc = assertThrows(CarNotFoundException.class, () ->
-                carService.searchAvailableCars(0, 10 , null, null, null, null, badYear));
+                carService.searchAvailableCars(0, 10 , null, null, null, null, null, badYear));
         assertThat(exc.getMessage()).isEqualTo("Cars not found");
     }
 }
