@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CarService {
@@ -79,14 +80,15 @@ public class CarService {
         );
     }
 
-    public Page<CarPreviewDTO> searchAvailableCars(
+    public Page<CarPreviewDTO> searchAvailableCarsForUser(
             int page, int size, String sortBy,
             String direction, String brand,
             String model, String branch, Integer carYear) {
 
+        Long client_id = null;
         Pageable pageable = buildPageable(page, size, sortBy, direction);
 
-        Specification<Car> spec = CarSpecifications.filterBy(brand, model, branch, carYear, StatusCar.AVAILABLE);
+        Specification<Car> spec = CarSpecifications.filterBy(brand, model, branch, carYear, StatusCar.AVAILABLE, client_id);
 
         Page<Car> cars = carRepository.findAll(spec, pageable);
 
@@ -107,4 +109,44 @@ public class CarService {
         return new PageImpl<>(dtoList, pageable, cars.getTotalElements());
     }
 
+
+    // Method for Admin
+
+    public Page<CarPreviewDTO> searchAvailableCarsForAdmin(
+            int page, int size, String sortBy,
+            String direction, String brand,
+            String model, String branch, Integer carYear, Long client_id) {
+
+        Pageable pageable = buildPageable(page, size, sortBy, direction);
+
+        Specification<Car> spec = CarSpecifications.filterBy(brand, model, branch, carYear, StatusCar.AVAILABLE, client_id);
+
+        Page<Car> cars = carRepository.findAll(spec, pageable);
+
+        if (cars.isEmpty()) {
+            throw new CarNotFoundException("Cars not found");
+        }
+
+        List<CarPreviewDTO> dtoList = cars.getContent().stream()
+                .map(car -> new CarPreviewDTO(
+                        car.getCarId(),
+                        car.getModel(),
+                        car.getBrand(),
+                        car.getBranch().getCity(),
+                        car.getBranch().getName()
+                ))
+                .toList();
+
+        return new PageImpl<>(dtoList, pageable, cars.getTotalElements());
+    }
+
+    public void seachCarByLicensePlate(String licensePlate) {
+        if (carRepository.findCarByLicensePlate(licensePlate).isPresent()) {
+            throw new CarNotFoundException("Car with license plate " + licensePlate + " not found");
+        }
+    }
+
+    public Car createCar(Car car) {
+        return carRepository.save(car);
+    }
 }

@@ -8,12 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/available")
-public class CarController {
+@RequestMapping("user/available")
+public class CarUserController {
 
     private final CarService carService;
 
-    public CarController(CarService carService) {
+    public CarUserController(CarService carService) {
         this.carService = carService;
     }
 
@@ -38,7 +38,7 @@ public class CarController {
 
     // Obtiene por filtros para Usuario
     @GetMapping("/search")
-    public ResponseEntity<Page<CarPreviewDTO>> searchAvailableCars(
+    public ResponseEntity<Page<CarPreviewDTO>> searchAvailableCarsForUser(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String sortBy,
@@ -48,7 +48,7 @@ public class CarController {
             @RequestParam(required = false) String branch,
             @RequestParam(required = false) Integer carYear
     ){
-        Page<CarPreviewDTO> result = carService.searchAvailableCars(page,size,sortBy,direction,brand,model,branch,carYear);
+        Page<CarPreviewDTO> result = carService.searchAvailableCarsForUser(page,size,sortBy,direction,brand,model,branch,carYear);
         return ResponseEntity.ok(result);
     }
 

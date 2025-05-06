@@ -15,10 +15,15 @@ public class CarSpecifications {
             String model,
             String branch,
             Integer carYear,
-            StatusCar status
+            StatusCar status,
+            Long client_id
     ) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
+
+            if(client_id != null) {
+                predicates.add(criteriaBuilder.equal(root.get("client_id"), client_id));
+            }
 
             if (status != null) {
                 predicates.add(criteriaBuilder.equal(root.get("status"), status));

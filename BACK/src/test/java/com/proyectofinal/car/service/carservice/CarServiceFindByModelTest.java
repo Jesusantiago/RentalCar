@@ -2,7 +2,6 @@ package com.proyectofinal.car.service.carservice;
 
 import com.proyectofinal.car.dto.CarPreviewDTO;
 import com.proyectofinal.car.exception.CarNotFoundException;
-import com.proyectofinal.car.exception.NoCarsFoundByModelException;
 import com.proyectofinal.car.service.CarService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class CarServiceFindByModelTest {
         Page<CarPreviewDTO> result = null;
 
         try{
-            result = carService.searchAvailableCars(0, 10, null, null, null, goodModel, null, null);
+            result = carService.searchAvailableCarsForUser(0, 10, null, null, null, goodModel, null, null);
         } catch (CarNotFoundException e) {
             fail("Exception was thrown" + e.getMessage());
         }
@@ -46,20 +45,20 @@ public class CarServiceFindByModelTest {
     @Test
     void carService_shouldReturnExceptionWhenNoCarsFoundByModel() {
         assertThrows(CarNotFoundException.class, () -> {
-            carService.searchAvailableCars(0, 10, null, null,null, badModel, null, null);
+            carService.searchAvailableCarsForUser(0, 10, null, null,null, badModel, null, null);
         });
     }
 
     @Test
     void carService_shouldReturnExceptionWhenNoCarsFoundByBrand_WithMessage() {
         CarNotFoundException exc = assertThrows(CarNotFoundException.class, () ->
-                carService.searchAvailableCars(0, 10, null, null, null, badModel, null, null));
+                carService.searchAvailableCarsForUser(0, 10, null, null, null, badModel, null, null));
         assertThat(exc.getMessage()).isEqualTo("Cars not found");
     }
 
     @Test
     void carService_shouldReturnCarsSortedByBrandDesc() {
-        Page<CarPreviewDTO> result =  carService.searchAvailableCars(0, 10, null, null, null, goodModel, null, null);
+        Page<CarPreviewDTO> result =  carService.searchAvailableCarsForUser(0, 10, null, null, null, goodModel, null, null);
 
         List<CarPreviewDTO> content = result.getContent();
         assertThat(content).isSortedAccordingTo(Comparator.comparing(CarPreviewDTO::getBrand).reversed());

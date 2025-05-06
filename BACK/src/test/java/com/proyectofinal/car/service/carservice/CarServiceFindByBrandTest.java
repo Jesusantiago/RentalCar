@@ -28,7 +28,7 @@ public class CarServiceFindByBrandTest {
         Page<CarPreviewDTO> result = null;
 
         try {
-            result = carService.searchAvailableCars(0, 10 , null, null, goodBrand, null, null, null);
+            result = carService.searchAvailableCarsForUser(0, 10 , null, null, goodBrand, null, null, null);
         } catch (CarNotFoundException e) {
             fail("Exception was thrown " + e.getMessage());
         }
@@ -41,13 +41,13 @@ public class CarServiceFindByBrandTest {
     @Test
     void carService_shouldReturnExceptionWhenNoCarsFoundByBrand() {
         assertThrows(CarNotFoundException.class, () ->
-                carService.searchAvailableCars(0, 10 , null, null, badBrand, null, null, null));
+                carService.searchAvailableCarsForUser(0, 10 , null, null, badBrand, null, null, null));
     }
 
     @Test
     void carService_shouldReturnExceptionWhenNoCarsFoundByBrand_withMessage() {
         CarNotFoundException exc = assertThrows(CarNotFoundException.class, () ->
-                carService.searchAvailableCars(0, 10 , null, null, badBrand, null, null, null));
+                carService.searchAvailableCarsForUser(0, 10 , null, null, badBrand, null, null, null));
         assertThat(exc.getMessage()).isEqualTo("Cars not found");
     }
 }
