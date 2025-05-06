@@ -158,26 +158,26 @@ public class CarRepositoryTest {
     @Test
     void returnAllCarsByBrand() {
         Pageable pageable = PageRequest.of(0, 10);
-        Page<Car> result = carRepository.findAllByBrand("Honda", pageable);
+        Page<Car> result = carRepository.findByBrandAndStatus("Honda", StatusCar.AVAILABLE, pageable);
         assertThat(result).isNotNull();
         assertThat(result.getContent()).isNotEmpty();
-        assertThat(result.getContent().size()).isEqualTo(4);
+        assertThat(result.getContent().size()).isEqualTo(3);
 
     }
 
     @Test
     void returnAllCarsByModel() {
         Pageable pageable = PageRequest.of(0, 10);
-        Page<Car> result = carRepository.findAllByModel("Supra", pageable);
+        Page<Car> result = carRepository.findByModelAndStatus("Supra", StatusCar.AVAILABLE, pageable);
         assertThat(result).isNotNull();
         assertThat(result.getContent()).isNotEmpty();
-        assertThat(result.getContent().size()).isEqualTo(2);
+        assertThat(result.getContent().size()).isEqualTo(1);
     }
 
     @Test
     void returnAllCarsByYear() {
         Pageable pageable = PageRequest.of(0, 10);
-        Page<Car> result = carRepository.findAllByCarYear(2020, pageable);
+        Page<Car> result = carRepository.findByCarYearAndStatus(2020, StatusCar.AVAILABLE, pageable);
         assertThat(result).isNotNull();
         assertThat(result.getContent()).isNotEmpty();
         assertThat(result.getContent().size()).isEqualTo(4);
@@ -186,7 +186,7 @@ public class CarRepositoryTest {
     @Test
     void returnAllCarsByBranchAndModel() {
         Pageable pageable = PageRequest.of(0, 10);
-        Page<Car> result = carRepository.findAllByBrandAndModel("Toyota", "Supra", pageable);
+        Page<Car> result = carRepository.findByBrandAndModelAndStatus("Toyota", "Supra", StatusCar.AVAILABLE, pageable);
         assertThat(result).isNotNull();
         assertThat(result.getContent()).isNotEmpty();
         assertThat(result.getContent().size()).isEqualTo(2);
