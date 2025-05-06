@@ -33,9 +33,6 @@ public class Branch {
     @OneToMany(mappedBy = "branchTo")
     private List<Rental> rentalsTo;
 
-
-
-
 //GETTERS AND SETTERS
 
     public Long getBranchId() {
