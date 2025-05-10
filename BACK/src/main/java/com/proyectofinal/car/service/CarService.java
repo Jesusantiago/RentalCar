@@ -10,9 +10,11 @@ import com.proyectofinal.car.model.Branch;
 import com.proyectofinal.car.model.Car;
 import com.proyectofinal.car.repository.CarRepository;
 import com.proyectofinal.car.util.CarSpecifications;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Optional;
@@ -148,8 +150,7 @@ public class CarService {
     }
 
     public CarRegisterDTO createCarFromDTO(CarRegisterDTO carDTO) {
-        carRepository.findCarByLicensePlate(carDTO.getLicensePlate());
-
+        seachCarByLicensePlate(carDTO.getLicensePlate());
 
         Car newCar = new Car();
         newCar.setBrand(carDTO.getBrand());

@@ -1,4 +1,4 @@
-package com.proyectofinal.car.service.carservice;
+package com.proyectofinal.car.service.carservice.user;
 
 import com.proyectofinal.car.dto.CarPreviewDTO;
 import com.proyectofinal.car.exception.CarNotFoundException;

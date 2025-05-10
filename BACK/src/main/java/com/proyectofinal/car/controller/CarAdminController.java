@@ -44,7 +44,7 @@ public class CarAdminController {
 
 
     @PostMapping("/newcar")
-    public ResponseEntity<?> createANewCar(@RequestBody CarRegisterDTO car, @Valid BindingResult result) {
+    public ResponseEntity<?> createANewCar(@RequestBody @Valid CarRegisterDTO car, BindingResult result) {
 
         if (result.hasErrors()) {
             List<String> errors = result.getFieldErrors()
