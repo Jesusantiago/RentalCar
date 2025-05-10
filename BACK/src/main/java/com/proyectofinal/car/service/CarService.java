@@ -147,11 +147,9 @@ public class CarService {
         }
     }
 
-    public Car createCar(CarRegisterDTO carDTO) {
+    public CarRegisterDTO createCarFromDTO(CarRegisterDTO carDTO) {
+        carRepository.findCarByLicensePlate(carDTO.getLicensePlate());
 
-        if (carRepository.findCarByLicensePlate(carDTO.getLicensePlate()).isPresent()) {
-            throw new CarNotFoundException("Car with license plate " + carDTO.getLicensePlate() + " already exists");
-        }
 
         Car newCar = new Car();
         newCar.setBrand(carDTO.getBrand());
@@ -161,6 +159,16 @@ public class CarService {
         newCar.setStatus(carDTO.getStatusCar());
         newCar.setBranch(carDTO.getBranch());
 
-        return carRepository.save(newCar);
+        Car savedCar = carRepository.save(newCar);
+
+        CarRegisterDTO responseDto = new CarRegisterDTO();
+        responseDto.setBrand(savedCar.getBrand());
+        responseDto.setModel(savedCar.getModel());
+        responseDto.setCarYear(savedCar.getCarYear());
+        responseDto.setLicensePlate(savedCar.getLicensePlate());
+        responseDto.setStatusCar(savedCar.getStatus());
+        responseDto.setBranch(savedCar.getBranch());
+
+        return responseDto;
     }
 }

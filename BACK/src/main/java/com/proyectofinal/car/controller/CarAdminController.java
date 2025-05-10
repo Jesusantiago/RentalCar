@@ -54,19 +54,9 @@ public class CarAdminController {
             return ResponseEntity.badRequest().body(errors);
         }
 
-        Car createdCar = carService.createCar(car);
+        CarRegisterDTO createdCar = carService.createCarFromDTO(car);
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCar);
     }
 }
-
-
-//
-//        Car newCar = new Car();
-//        newCar.setBrand(car.getBrand());
-//        newCar.setModel(car.getModel());
-//        newCar.setLicensePlate(car.getLicensePlate());
-//        newCar.setCarYear(car.getCarYear());
-//        newCar.setStatus(car.getStatusCar());
-//        newCar.setBranch(car.getBranch());
