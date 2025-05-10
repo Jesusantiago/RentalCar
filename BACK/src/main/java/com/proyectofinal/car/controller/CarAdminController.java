@@ -3,6 +3,7 @@ package com.proyectofinal.car.controller;
 import com.proyectofinal.car.dto.CarDetailsDTO;
 import com.proyectofinal.car.dto.CarPreviewDTO;
 import com.proyectofinal.car.dto.CarRegisterDTO;
+import com.proyectofinal.car.enums.StatusCar;
 import com.proyectofinal.car.model.Car;
 import com.proyectofinal.car.repository.CarRepository;
 import com.proyectofinal.car.service.CarService;
@@ -30,15 +31,17 @@ public class CarAdminController {
     public ResponseEntity<Page<CarPreviewDTO>> searchAvailableCarsForAdmin(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(required = false) String sortBy,
+            @RequestParam(defaultValue = "brand") String sortBy,
             @RequestParam(defaultValue = "asc") String direction,
             @RequestParam(required = false) String brand,
             @RequestParam(required = false) String model,
             @RequestParam(required = false) String branch,
             @RequestParam(required = false) Integer carYear,
+            @RequestParam(required = false) StatusCar statusCar,
             @RequestParam(required = false) Long client_id
     ){
-        Page<CarPreviewDTO> result = carService.searchAvailableCarsForAdmin(page,size,sortBy,direction,brand,model,branch,carYear, client_id);
+        Page<CarPreviewDTO> result = carService.searchAvailableCarsForAdmin(
+                page, size, sortBy, direction, brand, model, branch, carYear, statusCar, client_id);
         return ResponseEntity.ok(result);
     }
 
