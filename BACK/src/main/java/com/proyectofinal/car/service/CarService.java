@@ -27,13 +27,15 @@ public class CarService {
 
     private Pageable buildPageable(int page, int size, String sortBy, String direction) {
         if (sortBy != null && !sortBy.isEmpty()) {
-            Sort sort = direction.equalsIgnoreCase("desc")
+            String safeDirection = (direction != null) ? direction : "asc";
+            Sort sort = safeDirection.equalsIgnoreCase("desc")
                     ? Sort.by(sortBy).descending()
                     : Sort.by(sortBy).ascending();
             return PageRequest.of(page, size, sort);
         }
         return PageRequest.of(page, size);
     }
+
 
     public Page<CarPreviewDTO> getAvailableCars(int page, int size, String sortBy, String direction) {
         Pageable pageable = buildPageable(page, size, sortBy, direction);
@@ -113,8 +115,7 @@ public class CarService {
     // Method for Admin
 
     public Page<CarPreviewDTO> searchAvailableCarsForAdmin(
-            int page, int size, String sortBy,
-            String direction, String brand,
+            int page, int size, String sortBy, String direction, String brand,
             String model, String branch, Integer carYear, StatusCar statusCar, Long client_id) {
 
         Pageable pageable = buildPageable(page, size, sortBy, direction);
