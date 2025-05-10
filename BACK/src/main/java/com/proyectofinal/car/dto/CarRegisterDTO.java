@@ -3,6 +3,8 @@ package com.proyectofinal.car.dto;
 import com.proyectofinal.car.enums.StatusCar;
 import com.proyectofinal.car.model.Branch;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 public class CarRegisterDTO {
 
@@ -12,18 +14,19 @@ public class CarRegisterDTO {
     @NotBlank (message = "Este mensaje no puede estar vacío.")
     private String model;
 
-    @NotBlank (message = "Este mensaje no puede estar vacío.")
+    @Positive (message = "Este mensaje no puede estar vacío.")
     private int carYear;
 
     @NotBlank (message = "Este mensaje no puede estar vacío.")
     private String licensePlate;
 
-    @NotBlank (message = "Este mensaje no puede estar vacío.")
+    @NotNull (message = "Este mensaje no puede estar vacío.")
     private StatusCar statusCar;
 
     @NotBlank (message = "Este mensaje no puede estar vacío.")
     private Branch branch;
 
+    @NotNull
     public String getBrand() {
         return brand;
     }

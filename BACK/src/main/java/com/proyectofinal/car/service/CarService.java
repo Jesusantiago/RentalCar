@@ -3,6 +3,7 @@ package com.proyectofinal.car.service;
 import com.proyectofinal.car.dto.CarBranchDetailsDTO;
 import com.proyectofinal.car.dto.CarDetailsDTO;
 import com.proyectofinal.car.dto.CarPreviewDTO;
+import com.proyectofinal.car.dto.CarRegisterDTO;
 import com.proyectofinal.car.enums.StatusCar;
 import com.proyectofinal.car.exception.*;
 import com.proyectofinal.car.model.Branch;
@@ -146,7 +147,20 @@ public class CarService {
         }
     }
 
-    public Car createCar(Car car) {
-        return carRepository.save(car);
+    public Car createCar(CarRegisterDTO carDTO) {
+
+        if (carRepository.findCarByLicensePlate(carDTO.getLicensePlate()).isPresent()) {
+            throw new CarNotFoundException("Car with license plate " + carDTO.getLicensePlate() + " already exists");
+        }
+
+        Car newCar = new Car();
+        newCar.setBrand(carDTO.getBrand());
+        newCar.setModel(carDTO.getModel());
+        newCar.setLicensePlate(carDTO.getLicensePlate());
+        newCar.setCarYear(carDTO.getCarYear());
+        newCar.setStatus(carDTO.getStatusCar());
+        newCar.setBranch(carDTO.getBranch());
+
+        return carRepository.save(newCar);
     }
 }

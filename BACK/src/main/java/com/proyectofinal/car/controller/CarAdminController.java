@@ -54,16 +54,19 @@ public class CarAdminController {
             return ResponseEntity.badRequest().body(errors);
         }
 
-        carService.seachCarByLicensePlate(car.getLicensePlate());
+        Car createdCar = carService.createCar(car);
 
-        Car newCar = new Car();
-        newCar.setBrand(car.getBrand());
-        newCar.setModel(car.getModel());
-        newCar.setLicensePlate(car.getLicensePlate());
-        newCar.setCarYear(car.getCarYear());
-        newCar.setStatus(car.getStatusCar());
-        newCar.setBranch(car.getBranch());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(carRepository.save(newCar));
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCar);
     }
 }
+
+
+//
+//        Car newCar = new Car();
+//        newCar.setBrand(car.getBrand());
+//        newCar.setModel(car.getModel());
+//        newCar.setLicensePlate(car.getLicensePlate());
+//        newCar.setCarYear(car.getCarYear());
+//        newCar.setStatus(car.getStatusCar());
+//        newCar.setBranch(car.getBranch());
