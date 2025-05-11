@@ -24,9 +24,10 @@ public class CarRegisterDTO {
     private StatusCar statusCar;
 
     @NotBlank (message = "Este mensaje no puede estar vacío.")
-    private Branch branch;
+    private Long branch;
 
-    @NotNull
+    //GETTERS AND SETTERS
+
     public String getBrand() {
         return brand;
     }
@@ -67,11 +68,11 @@ public class CarRegisterDTO {
         this.statusCar = statusCar;
     }
 
-    public Branch getBranch() {
+    public Long getBranch() {
         return branch;
     }
 
-    public void setBranch(Branch branch) {
+    public void setBranch(Long branch) {
         this.branch = branch;
     }
 }

@@ -46,7 +46,7 @@ public class CarServiceCreateANewCarTest {
         dto.setCarYear(2025);
         dto.setLicensePlate("MNO-123");
         dto.setStatusCar(StatusCar.AVAILABLE);
-        dto.setBranch(testBranch);
+        dto.setBranch(1L);
 
         CarRegisterDTO createdCar = carService.createCarFromDTO(dto);
 
@@ -56,7 +56,10 @@ public class CarServiceCreateANewCarTest {
         assertEquals(createdCar.getCarYear(), 2025);
         assertEquals(createdCar.getLicensePlate(), "MNO-123");
         assertEquals(createdCar.getStatusCar(), StatusCar.AVAILABLE);
-        assertEquals(createdCar.getBranch().getName(), testBranch.getName());
+        assertEquals(createdCar.getBranch(), 1L);
+
+        Long carIdForDelete = carRepository.findCarByLicensePlate("MNO-123").get().getCarId();
+        carRepository.deleteById(carIdForDelete);
     }
 
     @Test
@@ -75,7 +78,7 @@ public class CarServiceCreateANewCarTest {
         duplicateCar.setCarYear(2025);
         duplicateCar.setLicensePlate("123-ABC");
         duplicateCar.setStatusCar(StatusCar.AVAILABLE);
-        duplicateCar.setBranch(testBranch);
+        duplicateCar.setBranch(1L);
 
         assertThrows(CarNotFoundException.class, () -> carService.createCarFromDTO(duplicateCar));
     }

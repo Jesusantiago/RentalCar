@@ -1,13 +1,11 @@
 package com.proyectofinal.car.controller.user;
 
-import com.proyectofinal.car.enums.StatusCar;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -63,9 +61,77 @@ public class CarUserControllerTest {
     @Test
     void getCarsWithFilterByModel_returns200AndCarsList() throws Exception {
         mockMvc.perform(get("/user/available/search")
-                .param("Model", "Civic"))
+                .param("model", "Civic"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").isArray())
-                .andExpect(jsonPath("$.content.length()").value(1));
+                .andExpect(jsonPath("$.content.length()").value(2));
     }
+
+    @Test
+    void getCarsWithFilterByCarYear_returns200AndCarsList() throws Exception {
+        mockMvc.perform(get("/user/available/search")
+                .param("carYear", Integer.toString(2020)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content.length()").value(4));
+    }
+
+    @Test
+    void getCarsWithFilterByCarYearAndSort_returns200AndCarsList() throws Exception {
+        mockMvc.perform(get("/user/available/search")
+                        .param("sortBy", "carYear")
+                        .param("direction", "asc"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content.length()").value(8));
+    }
+
+    @Test
+    void getCarsWithFilterByBranch_returns200AndCarsList() throws Exception {
+        mockMvc.perform(get("/user/available/search")
+            .param("branch", "AutoCon"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.content").isArray())
+            .andExpect(jsonPath("$.content.length()").value(2));
+    }
+
+    @Test
+    void getCarsWithNonExistentBrand_returnsEmptyList() throws Exception {
+        mockMvc.perform(get("/user/available/search")
+            .param("brand", "Ferrari"))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getCarsWithNonExistentModel_returnsEmptyList() throws Exception {
+        mockMvc.perform(get("/user/available/search")
+                        .param("model", "Camaro"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getCarsWithNonExistentCarYear_returnsEmptyList() throws Exception {
+        mockMvc.perform(get("/user/available/search")
+            .param("carYear", "1999"))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getCarsWithNonExistentBranch_returnsEmptyList() throws Exception {
+        mockMvc.perform(get("/user/available/search")
+            .param("branch", "AutoMax"))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getCarsWithValidFiltersButNoMatch_returnsEmptyList() throws Exception {
+        mockMvc.perform(get("/user/available/search")
+            .param("brand", "Toyota")
+            .param("model", "Civic")
+            .param("carYear", "2021")
+            .param("branch", "CarMax"))
+            .andExpect(status().isNotFound());
+    }
+
+
 }

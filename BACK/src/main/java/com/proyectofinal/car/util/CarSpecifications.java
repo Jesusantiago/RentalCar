@@ -30,17 +30,17 @@ public class CarSpecifications {
             }
 
             if (brand != null && !brand.isEmpty()) {
-                predicates.add(criteriaBuilder.equal(
+                predicates.add(criteriaBuilder.like(
                         criteriaBuilder.lower(root.get("brand")), brand.toLowerCase()));
             }
 
             if (model != null && !model.isEmpty()) {
-                predicates.add(criteriaBuilder.equal(
+                predicates.add(criteriaBuilder.like(
                         criteriaBuilder.lower(root.get("model")), model.toLowerCase()));
             }
 
             if (branch != null && !branch.isEmpty()) {
-                predicates.add(criteriaBuilder.equal(
+                predicates.add(criteriaBuilder.like(
                         criteriaBuilder.lower(root.get("branch").get("name")), branch.toLowerCase()));
             }
 

@@ -69,6 +69,9 @@ public class CarRepositoryTest {
         assertThat(car.getLicensePlate()).isEqualTo("123-XYZ");
         assertThat(car.getStatus()).isEqualTo(StatusCar.AVAILABLE);
         assertThat(car.getBranch()).isEqualTo(branch1);
+
+        Long carIdForDelete = carRepository.findCarByLicensePlate("123-XYZ").get().getCarId();
+        carRepository.deleteById(carIdForDelete);
     }
 
     @Test
@@ -160,9 +163,16 @@ public class CarRepositoryTest {
         Pageable pageable = PageRequest.of(0, 10);
         Branch branch = branchRepository.getById(1L);
         Page<Car> result = carRepository.findCarsByBranch(branch, pageable);
+        for (Car c : result.getContent()) {
+            System.out.println(c.getCarId());
+
+        }
         assertThat(result).isNotNull();
         assertThat(result.getContent()).isNotEmpty();
         assertThat(result.getContent().size()).isEqualTo(3);
+
+
+
     }
 
     @Test

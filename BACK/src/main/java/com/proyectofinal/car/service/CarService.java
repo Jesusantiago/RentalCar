@@ -8,6 +8,7 @@ import com.proyectofinal.car.model.Car;
 import com.proyectofinal.car.repository.BranchRepository;
 import com.proyectofinal.car.repository.CarRepository;
 import com.proyectofinal.car.util.CarSpecifications;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -151,13 +152,17 @@ public class CarService {
     public CarRegisterDTO createCarFromDTO(CarRegisterDTO carDTO) {
         seachCarByLicensePlate(carDTO.getLicensePlate());
 
+        Branch branch = branchRepository.findById(carDTO.getBranch())
+                .orElseThrow(() -> new NoCarsFoundByBrandException("No branch found"));
+
+
         Car newCar = new Car();
         newCar.setBrand(carDTO.getBrand());
         newCar.setModel(carDTO.getModel());
         newCar.setLicensePlate(carDTO.getLicensePlate());
         newCar.setCarYear(carDTO.getCarYear());
         newCar.setStatus(carDTO.getStatusCar());
-        newCar.setBranch(carDTO.getBranch());
+        newCar.setBranch(branch);
 
         Car savedCar = carRepository.save(newCar);
 
@@ -167,7 +172,7 @@ public class CarService {
         responseDto.setCarYear(savedCar.getCarYear());
         responseDto.setLicensePlate(savedCar.getLicensePlate());
         responseDto.setStatusCar(savedCar.getStatus());
-        responseDto.setBranch(savedCar.getBranch());
+        responseDto.setBranch(savedCar.getBranch().getBranchId());
 
         return responseDto;
     }
