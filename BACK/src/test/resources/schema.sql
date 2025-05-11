@@ -1,5 +1,7 @@
+DROP TABLE IF EXISTS rental;
 DROP TABLE IF EXISTS car;
 DROP TABLE IF EXISTS branch;
+
 
 -- Crear tabla Branch
 CREATE TABLE branch (
