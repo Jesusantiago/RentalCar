@@ -1,13 +1,11 @@
 package com.proyectofinal.car.service;
 
-import com.proyectofinal.car.dto.CarBranchDetailsDTO;
-import com.proyectofinal.car.dto.CarDetailsDTO;
-import com.proyectofinal.car.dto.CarPreviewDTO;
-import com.proyectofinal.car.dto.CarRegisterDTO;
+import com.proyectofinal.car.dto.*;
 import com.proyectofinal.car.enums.StatusCar;
 import com.proyectofinal.car.exception.*;
 import com.proyectofinal.car.model.Branch;
 import com.proyectofinal.car.model.Car;
+import com.proyectofinal.car.repository.BranchRepository;
 import com.proyectofinal.car.repository.CarRepository;
 import com.proyectofinal.car.util.CarSpecifications;
 import org.springframework.data.domain.*;
@@ -15,14 +13,17 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CarService {
 
     private final CarRepository carRepository;
+    private final BranchRepository branchRepository;
 
-    public CarService(CarRepository carRepository) {
+    public CarService(CarRepository carRepository, BranchRepository branchRepository) {
         this.carRepository = carRepository;
+        this.branchRepository = branchRepository;
     }
 
     private Pageable buildPageable(int page, int size, String sortBy, String direction) {
@@ -169,5 +170,69 @@ public class CarService {
         responseDto.setBranch(savedCar.getBranch());
 
         return responseDto;
+    }
+
+    public CarDetailsDTO updateACar(Long id, CarUpdateDTO carUpdate) {
+        Optional<Car> car = carRepository.findById(id);
+
+        if(car.isEmpty()) {
+            throw new CarNotFoundException("Car with id " + id + " not found");
+        }
+
+        Car existingCar = car.get();
+
+        if (carUpdate.getBrand() != null) {
+            existingCar.setBrand(carUpdate.getBrand());
+        }
+
+        if (carUpdate.getModel() != null) {
+            existingCar.setModel(carUpdate.getModel());
+        }
+
+        if (carUpdate.getCarYear() != null) {
+            existingCar.setCarYear(carUpdate.getCarYear());
+        }
+
+        if (carUpdate.getLicensePlate() != null) {
+            existingCar.setLicensePlate(carUpdate.getLicensePlate());
+        }
+
+        if (carUpdate.getBranchId() != null) {
+            Branch branch = branchRepository.findById(carUpdate.getBranchId())
+                            .orElseThrow( () -> new BranchNotFoundException("Branch not found"));
+            existingCar.setBranch(branch);
+        }
+
+        if (carUpdate.getStatusCar() != null) {
+            existingCar.setStatus(carUpdate.getStatusCar());
+        }
+
+        carRepository.save(existingCar);
+
+        CarBranchDetailsDTO branchupdate = new CarBranchDetailsDTO(
+                existingCar.getBranch().getBranchId(),
+                existingCar.getBranch().getName(),
+                existingCar.getBranch().getAddress(),
+                existingCar.getBranch().getCity(),
+                existingCar.getBranch().getPhone()
+        );
+
+        CarDetailsDTO carAlreadyUpdate = new CarDetailsDTO();
+        carAlreadyUpdate.setBrand(existingCar.getBrand());
+        carAlreadyUpdate.setModel(existingCar.getModel());
+        carAlreadyUpdate.setCarYear(existingCar.getCarYear());
+        carAlreadyUpdate.setLicensePlate(existingCar.getLicensePlate());
+        carAlreadyUpdate.setBranch(branchupdate);
+
+        return carAlreadyUpdate;
+    }
+
+    public void deleteCar(Long id) {
+        Optional<Car> car = carRepository.findById(id);
+        if(car.isEmpty()) {
+            throw new CarNotFoundException("Car with id " + id + " not found");
+        }
+
+        carRepository.delete(car.get());
     }
 }

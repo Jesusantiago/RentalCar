@@ -3,8 +3,8 @@ package com.proyectofinal.car.controller;
 import com.proyectofinal.car.dto.CarDetailsDTO;
 import com.proyectofinal.car.dto.CarPreviewDTO;
 import com.proyectofinal.car.dto.CarRegisterDTO;
+import com.proyectofinal.car.dto.CarUpdateDTO;
 import com.proyectofinal.car.enums.StatusCar;
-import com.proyectofinal.car.model.Car;
 import com.proyectofinal.car.repository.CarRepository;
 import com.proyectofinal.car.service.CarService;
 import jakarta.validation.Valid;
@@ -61,5 +61,29 @@ public class CarAdminController {
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCar);
+    }
+
+    @PutMapping("/car/{id}")
+    public ResponseEntity<?> updateCar(
+            @PathVariable Long id, @RequestBody @Valid CarUpdateDTO car, BindingResult result) {
+
+        if (result.hasErrors()) {
+            List<String> errors = result.getFieldErrors()
+                    .stream()
+                    .map(error -> error.getDefaultMessage())
+                    .toList();
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        CarDetailsDTO updatedCar = carService.updateACar(id, car);
+
+        return ResponseEntity.ok(updatedCar);
+    };
+
+    @DeleteMapping("/car/{id}")
+    public ResponseEntity<?> deleteCar(@PathVariable Long id) {
+        carService.deleteCar(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

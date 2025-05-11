@@ -11,6 +11,9 @@ public class CarDetailsDTO {
     private String licensePlate;
     private CarBranchDetailsDTO branch;
 
+    public CarDetailsDTO() {
+    }
+
     public CarDetailsDTO(Long id, String brand, String model, int carYear, String licensePlate, CarBranchDetailsDTO branch) {
         this.id = id;
         this.brand = brand;
