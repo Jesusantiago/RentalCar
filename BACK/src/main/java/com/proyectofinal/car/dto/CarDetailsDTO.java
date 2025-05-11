@@ -27,10 +27,6 @@ public class CarDetailsDTO {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getBrand() {
         return brand;
     }
@@ -54,7 +50,6 @@ public class CarDetailsDTO {
     public void setCarYear(int carYear) {
         this.carYear = carYear;
     }
-
 
     public String getLicensePlate() {
         return licensePlate;

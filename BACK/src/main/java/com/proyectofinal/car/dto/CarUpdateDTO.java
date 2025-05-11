@@ -62,15 +62,4 @@ public class CarUpdateDTO {
         this.statusCar = statusCar;
     }
 
-    @Override
-    public String toString() {
-        return "CarUpdateDTO{" +
-                "brand='" + brand + '\'' +
-                ", model='" + model + '\'' +
-                ", carYear=" + carYear +
-                ", LicensePlate='" + LicensePlate + '\'' +
-                ", branchId=" + branchId +
-                ", statusCar=" + statusCar +
-                '}';
-    }
 }

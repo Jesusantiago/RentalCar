@@ -15,34 +15,10 @@ import java.util.Optional;
 
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long>, JpaSpecificationExecutor<Car> {
-//  Metodos para administrador
     Optional<Car> findCarByLicensePlate(String licensePlate);
     Page<Car> findCarsByBranch(Branch branch, Pageable pageable);
     Page<Car> findAllByStatus(StatusCar status, Pageable pageable);
     Page<Car> findAllByBranchAndStatus(Branch branch, StatusCar status, Pageable pageable);
     void deleteCarByLicensePlate(String licensePlate);
-
-//  Metodos para usuario final
-
-
-
-
-
-
-//    Page<Car> findByBrandAndModelAndCarYearAndStatus(String brand, String model, Integer carYear, StatusCar status, Pageable pageable);
-//    Page<Car> findByBrandAndModelAndStatus(String brand, String model, StatusCar status, Pageable pageable);
-//    Page<Car> findByModelAndCarYearAndStatus(String model, Integer carYear, StatusCar status, Pageable pageable);
-//    Page<Car> findByBrandAndCarYearAndStatus(String brand, Integer carYear, StatusCar status, Pageable pageable);
-//    Page<Car> findByModelAndStatus(String model, StatusCar status, Pageable pageable);
-//    Page<Car> findByBrandAndStatus(String brand, StatusCar status, Pageable pageable);
-//    Page<Car> findByCarYearAndStatus(Integer carYear, StatusCar status, Pageable pageable);
-
-//  Mismos metodos para usuario final, pero individual
-//  Page<Car> findAllByBrand(String brand, Pageable pageable);
-//  Page<Car> findAllByModel(String model, Pageable pageable);
-//  Page<Car> findAllByCarYear(int carYear, Pageable pageable);
-//  Page<Car> findAllByBrandAndModel(String brand, String model, Pageable pageable);
-//  Page<Car> findAllByBranchAndBrandAndModel(Branch branch,String brand, String model, Pageable pageable);
-
 
 }

@@ -20,39 +20,20 @@ public class CarPreviewDTO {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getModel() {
         return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
     }
 
     public String getBrand() {
         return brand;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
     public String getBranchCity() {
         return branchCity;
-    }
-
-    public void setBranchCity(String branchCity) {
-        this.branchCity = branchCity;
     }
 
     public String getBranchName() {
         return branchName;
     }
 
-    public void setBranchName(String branchName) {
-        this.branchName = branchName;
-    }
 }

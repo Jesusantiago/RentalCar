@@ -43,9 +43,6 @@ public class Car {
         return carId;
     }
 
-    public void setCarId(Long car_id) {
-        this.carId = car_id;
-    }
 
     public String getBrand() {
         return brand;
