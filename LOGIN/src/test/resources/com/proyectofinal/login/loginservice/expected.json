@@ -1,0 +1,9 @@
+{
+  "name": "John",
+  "lastName": "Doe",
+  "email": "john@example.com",
+  "password": "password123",
+  "usuary": "hola",
+  "licenseType": "B",
+  "dateOfBirth": "1995-05-10"
+}
