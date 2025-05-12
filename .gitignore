@@ -68,3 +68,38 @@ Thumbs.db
 **/mvnw
 
 .github/
+
+
+# Front-End Android build
+FRONT-END/.gradle/
+FRONT-END/.idea/
+FRONT-END/build/
+FRONT-END/app/build/
+
+# Archivos de configuración del sistema
+FRONT-END/local.properties
+
+# Archivos generados
+FRONT-END/app/.cxx/
+FRONT-END/app/.idea/
+FRONT-END/app/build/
+FRONT-END/app/intermediates/
+FRONT-END/app/generated/
+FRONT-END/app/.gradle/
+FRONT-END/.DS_Store
+
+# Archivos temporales de test
+FRONT-END/app/src/androidTest/
+FRONT-END/app/src/test/
+
+# Archivos de Gradle Wrapper
+FRONT-END/gradlew
+FRONT-END/gradlew.bat
+FRONT-END/gradle/
+FRONT-END/.gradle/
+
+# Archivos generados por Compose
+FRONT-END/app/build/generated/
+
+# Otros
+FRONT-END/app/proguard-rules.pro
