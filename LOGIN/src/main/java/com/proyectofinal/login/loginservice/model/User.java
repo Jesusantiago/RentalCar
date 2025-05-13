@@ -30,7 +30,7 @@ public class User {
     @Column(nullable = false)
     private String licenseType;
 
-    @Column(nullable = false)
+    @Column()
     private LocalDate dateOfBirth;
 
     /* GETTERS AND SETTERS */
