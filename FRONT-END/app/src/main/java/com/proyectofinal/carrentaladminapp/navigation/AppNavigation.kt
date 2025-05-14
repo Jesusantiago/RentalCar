@@ -8,6 +8,7 @@ import androidx.navigation.navArgument
 import com.proyectofinal.carrentaladminapp.login.LoginUserNameScreen
 import com.proyectofinal.carrentaladminapp.ui.login.LoginPasswordScreen
 import com.proyectofinal.carrentaladminapp.ui.components.WelcomeScreen
+import com.proyectofinal.carrentaladminapp.ui.home.HomeAdminScreen
 import com.proyectofinal.carrentaladminapp.ui.register.RegisterScreen
 
 @Composable
@@ -22,6 +23,7 @@ fun AppNavigation(navController: NavHostController) {
             val username = backStackEntry.arguments?.getString("username") ?: ""
             LoginPasswordScreen(navController, username)}
         composable("register") { RegisterScreen(navController) }
+        composable("home") { HomeAdminScreen(navController)}
     }
 }
 
