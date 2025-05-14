@@ -38,7 +38,7 @@ fun HomeAdminScreen(navController: NavController) {
     Scaffold(
         topBar = { AdminTopBar() },
         floatingActionButton = {
-            FloatingActionButton(onClick = { /* acción para agregar auto */ }) {
+            FloatingActionButton(onClick = { navController.navigate("newcar") }) {
                 Icon(Icons.Default.Add, contentDescription = "Add cars")
             }
         }
@@ -62,10 +62,11 @@ fun HomeAdminScreen(navController: NavController) {
 
 @Composable
 fun AdminTopBar() {
+
     TopAppBar(
         title = { Text("RentalCars Admin") },
         actions = {
-            IconButton(onClick = { /* acción de logout si querés */ }) {
+            IconButton(onClick = { /* */ }) {
                 Icon(Icons.Default.ExitToApp, contentDescription = "Logout")
             }
         }

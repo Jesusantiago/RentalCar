@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.proyectofinal.carrentaladminapp.login.LoginUserNameScreen
+import com.proyectofinal.carrentaladminapp.ui.cars.NewCarScreen
 import com.proyectofinal.carrentaladminapp.ui.login.LoginPasswordScreen
 import com.proyectofinal.carrentaladminapp.ui.components.WelcomeScreen
 import com.proyectofinal.carrentaladminapp.ui.home.HomeAdminScreen
@@ -24,6 +25,7 @@ fun AppNavigation(navController: NavHostController) {
             LoginPasswordScreen(navController, username)}
         composable("register") { RegisterScreen(navController) }
         composable("home") { HomeAdminScreen(navController)}
+        composable("newcar") { NewCarScreen(navController) }
     }
 }
 

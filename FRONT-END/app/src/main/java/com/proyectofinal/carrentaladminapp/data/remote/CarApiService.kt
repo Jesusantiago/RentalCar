@@ -1,8 +1,12 @@
 package com.proyectofinal.carrentaladminapp.data.remote
 
 import com.proyectofinal.carrentaladminapp.data.model.Car
+import com.proyectofinal.carrentaladminapp.data.model.CarRegisterResponse
 import com.proyectofinal.carrentaladminapp.data.model.PageResponse
+import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface CarApiService {
@@ -14,4 +18,7 @@ interface CarApiService {
         @Query("direction") direction: String = "asc",
         @Query("status") status: String="AVAILABLE"
     ): PageResponse<Car>
+
+    @POST("/admin/newcar")
+    suspend fun newCar(@Body response: CarRegisterResponse) : CarRegisterResponse
 }
