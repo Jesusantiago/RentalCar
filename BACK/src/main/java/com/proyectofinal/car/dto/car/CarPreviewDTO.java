@@ -1,4 +1,4 @@
-package com.proyectofinal.car.dto;
+package com.proyectofinal.car.dto.car;
 
 public class CarPreviewDTO {
 

@@ -1,8 +1,8 @@
 package com.proyectofinal.car.controller.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.proyectofinal.car.dto.CarRegisterDTO;
-import com.proyectofinal.car.dto.CarUpdateDTO;
+import com.proyectofinal.car.dto.car.CarRegisterDTO;
+import com.proyectofinal.car.dto.car.CarUpdateDTO;
 import com.proyectofinal.car.enums.StatusCar;
 import com.proyectofinal.car.model.Branch;
 import com.proyectofinal.car.model.Car;

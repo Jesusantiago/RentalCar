@@ -1,6 +1,4 @@
-package com.proyectofinal.car.dto;
-
-import com.proyectofinal.car.dto.CarBranchDetailsDTO;
+package com.proyectofinal.car.dto.car;
 
 public class CarDetailsDTO {
 

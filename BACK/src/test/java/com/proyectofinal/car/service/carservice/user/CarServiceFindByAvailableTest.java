@@ -1,6 +1,6 @@
 package com.proyectofinal.car.service.carservice.user;
 
-import com.proyectofinal.car.dto.CarPreviewDTO;
+import com.proyectofinal.car.dto.car.CarPreviewDTO;
 import com.proyectofinal.car.exception.NoAvailableCarsException;
 import com.proyectofinal.car.service.CarService;
 import org.junit.jupiter.api.Test;

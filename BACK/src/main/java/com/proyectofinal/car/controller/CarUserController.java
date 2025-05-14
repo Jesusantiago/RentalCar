@@ -1,7 +1,7 @@
 package com.proyectofinal.car.controller;
 
-import com.proyectofinal.car.dto.CarDetailsDTO;
-import com.proyectofinal.car.dto.CarPreviewDTO;
+import com.proyectofinal.car.dto.car.CarDetailsDTO;
+import com.proyectofinal.car.dto.car.CarPreviewDTO;
 import com.proyectofinal.car.service.CarService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;

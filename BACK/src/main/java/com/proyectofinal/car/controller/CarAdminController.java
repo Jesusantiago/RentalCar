@@ -1,9 +1,9 @@
 package com.proyectofinal.car.controller;
 
-import com.proyectofinal.car.dto.CarDetailsDTO;
-import com.proyectofinal.car.dto.CarPreviewDTO;
-import com.proyectofinal.car.dto.CarRegisterDTO;
-import com.proyectofinal.car.dto.CarUpdateDTO;
+import com.proyectofinal.car.dto.car.CarDetailsDTO;
+import com.proyectofinal.car.dto.car.CarPreviewDTO;
+import com.proyectofinal.car.dto.car.CarRegisterDTO;
+import com.proyectofinal.car.dto.car.CarUpdateDTO;
 import com.proyectofinal.car.enums.StatusCar;
 import com.proyectofinal.car.repository.CarRepository;
 import com.proyectofinal.car.service.CarService;

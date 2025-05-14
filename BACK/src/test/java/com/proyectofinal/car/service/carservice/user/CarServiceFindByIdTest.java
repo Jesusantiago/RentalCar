@@ -1,6 +1,6 @@
 package com.proyectofinal.car.service.carservice.user;
 
-import com.proyectofinal.car.dto.CarDetailsDTO;
+import com.proyectofinal.car.dto.car.CarDetailsDTO;
 import com.proyectofinal.car.exception.CarNotFoundException;
 import com.proyectofinal.car.service.CarService;
 import org.junit.jupiter.api.Test;

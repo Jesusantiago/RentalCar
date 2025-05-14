@@ -1,7 +1,6 @@
-package com.proyectofinal.car.dto;
+package com.proyectofinal.car.dto.car;
 
 import com.proyectofinal.car.enums.StatusCar;
-import com.proyectofinal.car.model.Branch;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

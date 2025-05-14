@@ -1,6 +1,6 @@
 package com.proyectofinal.car.service.carservice.admin;
 
-import com.proyectofinal.car.dto.CarPreviewDTO;
+import com.proyectofinal.car.dto.car.CarPreviewDTO;
 import com.proyectofinal.car.enums.StatusCar;
 import com.proyectofinal.car.exception.CarNotFoundException;
 import com.proyectofinal.car.service.CarService;
