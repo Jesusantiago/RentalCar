@@ -69,7 +69,7 @@ fun LoginPasswordScreen(navController: NavHostController, emailUser: String) {
                             if (response.isSuccessful) {
                                 launch(Dispatchers.Main) {
                                     Toast.makeText(context, "Login exitoso", Toast.LENGTH_LONG).show()
-                                    navController.navigate("main") // Cambia esto según tu flujo
+                                    navController.navigate("home") // Cambia esto según tu flujo
                                 }
                             } else {
                                 launch(Dispatchers.Main) {
