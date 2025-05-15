@@ -1,5 +1,6 @@
 package com.proyectofinal.carrentaladminapp.data.remote
 
+import com.proyectofinal.carrentaladminapp.data.model.BranchNewCar
 import com.proyectofinal.carrentaladminapp.data.model.Car
 import com.proyectofinal.carrentaladminapp.data.model.CarRegisterResponse
 import com.proyectofinal.carrentaladminapp.data.model.PageResponse
@@ -21,4 +22,7 @@ interface CarApiService {
 
     @POST("/admin/newcar")
     suspend fun newCar(@Body response: CarRegisterResponse) : CarRegisterResponse
+
+    @GET("/admin/branchs")
+    suspend fun branchForNewCar(): List<BranchNewCar>
 }

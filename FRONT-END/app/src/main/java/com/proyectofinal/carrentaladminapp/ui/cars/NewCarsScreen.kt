@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,8 +31,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.proyectofinal.carrentaladminapp.data.StatusCar
+import com.proyectofinal.carrentaladminapp.data.model.BranchNewCar
 import com.proyectofinal.carrentaladminapp.data.model.CarRegisterResponse
 import com.proyectofinal.carrentaladminapp.data.remote.RetrofitCar
+import com.proyectofinal.carrentaladminapp.ui.components.SimpleDropdown
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,12 +45,23 @@ import kotlinx.coroutines.launch
 fun NewCarScreen(navController: NavController) {
     val context = LocalContext.current
 
+    val branches = remember { mutableStateOf<List<BranchNewCar>>(emptyList()) }
+
+
     var brand by remember { mutableStateOf("") }
     var model by remember { mutableStateOf("") }
     var carYear by remember { mutableStateOf("") }
     var licensePlate by remember { mutableStateOf("") }
-    var statusCar by remember { mutableStateOf("") }
-    var branch by remember { mutableStateOf("") }
+    var statusCar by remember { mutableStateOf<StatusCar?>(null) }
+    var selectedBranch by remember { mutableStateOf<BranchNewCar?>(null) }
+
+    LaunchedEffect(Unit) {
+        try {
+            branches.value = fetchBranches()
+        } catch (e: Exception) {
+            Toast.makeText(context, "Error cargando sucursales", Toast.LENGTH_LONG).show()
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -111,22 +126,22 @@ fun NewCarScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            OutlinedTextField(
-                value = statusCar,
-                onValueChange = { statusCar = it},
-                label = { Text("Disponibilidad")},
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+            SimpleDropdown(
+                text = "Selecciona una disponibilidad",
+                options = StatusCar.values().map {it.name},
+                selectedOption = statusCar?.name,
+                onOptionSelected = { selected -> statusCar = StatusCar.valueOf(selected)}
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            OutlinedTextField(
-                value = branch,
-                onValueChange = { branch = it},
-                label = { Text("Sucursal")},
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+            SimpleDropdown(
+                text = "Selecciona una surcusal",
+                options = branches.value.map { it.name},
+                selectedOption = selectedBranch?.name,
+                onOptionSelected = { selectedName ->
+                    selectedBranch = branches.value.find { it.name == selectedName }
+                }
             )
 
             Spacer(modifier = Modifier.height(36.dp))
@@ -137,8 +152,14 @@ fun NewCarScreen(navController: NavController) {
                     CoroutineScope(Dispatchers.IO).launch {
                         try {
                             val response = RetrofitCar.api.newCar(
-                                CarRegisterResponse(brand, model, carYear.toInt(),
-                                    licensePlate, statusCar, branch.toLong())
+                                CarRegisterResponse(
+                                    brand,
+                                    model,
+                                    carYear.toInt(),
+                                    licensePlate,
+                                    statusCar?.name.toString(),
+                                    selectedBranch!!.id
+                                )
                             )
 
                             launch(Dispatchers.Main) {
@@ -155,7 +176,7 @@ fun NewCarScreen(navController: NavController) {
                 },
                 enabled = brand.isNotBlank() && model.isNotBlank()
                         && carYear.isNotBlank() && licensePlate.isNotBlank()
-                        && statusCar.isNotBlank() && branch.isNotBlank(),
+                        && statusCar != null && selectedBranch != null,
                 modifier = Modifier.fillMaxWidth()
             ){
                 Text("Agregar auto")
@@ -174,3 +195,7 @@ fun NewCarScreenPreview(){
     NewCarScreen(navController)
 }
 
+
+suspend fun fetchBranches(): List<BranchNewCar> {
+    return RetrofitCar.api.branchForNewCar()
+}
