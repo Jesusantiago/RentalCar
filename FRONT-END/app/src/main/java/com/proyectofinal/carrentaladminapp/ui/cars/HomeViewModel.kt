@@ -16,25 +16,23 @@ class HomeViewModel : ViewModel(){
         getCars()
     }
 
-    private fun getCars(){
+    public fun getCars(){
         viewModelScope.launch {
             try {
                 val response = RetrofitCar.api.getCars()
                 _cars.value = response.content
+                println(response.content)
 
-                // Print del objeto entero
-                println("Respuesta completa: $response")
-
-                // Si querés solo el contenido (lista de autos)
-                println("Autos: ${response.content}")
-
-                // O usando Log para verlo en Logcat
             } catch (e: Exception) {
                 e.printStackTrace()
                 println("Error en getCars: ${e.message}")
 
             }
         }
+    }
+
+    fun removeCarFromList(id: Long) {
+        _cars.value = _cars.value.filter { it.id != id }
     }
 }
 

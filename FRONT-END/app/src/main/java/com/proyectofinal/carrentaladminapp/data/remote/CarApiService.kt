@@ -6,8 +6,10 @@ import com.proyectofinal.carrentaladminapp.data.model.CarRegisterResponse
 import com.proyectofinal.carrentaladminapp.data.model.PageResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface CarApiService {
@@ -25,4 +27,9 @@ interface CarApiService {
 
     @GET("/admin/branchs")
     suspend fun branchForNewCar(): List<BranchNewCar>
+
+    @DELETE("/admin/car/{id}")
+    suspend fun deleteCar(
+        @Path("id") id: Long
+    ) : Response<Void>
 }
