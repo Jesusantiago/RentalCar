@@ -1,5 +1,7 @@
 package com.proyectofinal.carrentaladminapp.ui.cars
 
+import android.net.http.UrlRequest.Status
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +18,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -24,14 +27,53 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.proyectofinal.carrentaladminapp.R
+import com.proyectofinal.carrentaladminapp.data.StatusCar
 import com.proyectofinal.carrentaladminapp.data.model.Car
+import com.proyectofinal.carrentaladminapp.data.remote.RetrofitCar
+import com.proyectofinal.carrentaladminapp.ui.home.HomeViewModel
 
 @Composable
-fun CarPreviewScreen(car: Car){
+fun CarPreviewScreen(car: Car, viewModel: HomeViewModel, navController: NavController){
+    val carDetail = viewModel.carDetailsState
+    val error = viewModel.errorState
+
+    LaunchedEffect(carDetail) {
+        if (carDetail != null) {
+            navController.navigate("carDetail")
+        }
+    }
+
+    if (error != null){
+        println("Hubo un error")
+    }
+
+    val statusText = when (car.statusCar) {
+        StatusCar.AVAILABLE -> "Disponible"
+        StatusCar.RENTAL -> "Rentado"
+        StatusCar.MAINTENANCE -> "En mantenimiento"
+        StatusCar.CANCELLED -> "Cancelado"
+    }
+
+    val backgroundColor = when (car.statusCar){
+        StatusCar.AVAILABLE -> Color.Green
+        StatusCar.RENTAL -> Color.Red
+        StatusCar.MAINTENANCE -> Color.Yellow
+        StatusCar.CANCELLED -> Color.Red
+    }
+
+    val textColor = when (car.statusCar){
+        StatusCar.AVAILABLE -> Color.Black
+        StatusCar.RENTAL -> Color.White
+        StatusCar.MAINTENANCE -> Color.Black
+        StatusCar.CANCELLED -> Color.White
+    }
 
     Card(
-        onClick = {/* TODO */},
+        onClick = {
+            viewModel.getACar(car.id)
+                  },
         modifier = Modifier
             .fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
@@ -72,12 +114,15 @@ fun CarPreviewScreen(car: Car){
                     Text(car.branchCity, fontWeight = FontWeight.Medium, fontSize = 18.sp)
                 }
 
+                Spacer(modifier = Modifier.height(8.dp))
+
+
                 Box(
                     modifier = Modifier
-                        .background(Color.Green, shape = RoundedCornerShape(12.dp))
+                        .background(backgroundColor, shape = RoundedCornerShape(12.dp))
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                 ) {
-                    Text("Disponible", color = Color.Black, fontSize = 12.sp)
+                    Text(statusText, color = textColor, fontSize = 12.sp, fontWeight = FontWeight.Medium)
                 }
 
             }

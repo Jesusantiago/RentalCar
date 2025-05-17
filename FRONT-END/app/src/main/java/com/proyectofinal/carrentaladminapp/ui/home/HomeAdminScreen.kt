@@ -209,7 +209,7 @@ fun HomeAdminScreen(navController: NavController) {
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                 ) {
                     items(filteredCars) { car ->
-                        CarPreviewScreen(car)
+                        CarPreviewScreen(car, viewModel, navController)
                         Spacer(modifier = Modifier.height(12.dp))
                     }
                 }

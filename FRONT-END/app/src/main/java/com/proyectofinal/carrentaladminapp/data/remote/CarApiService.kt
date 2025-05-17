@@ -2,6 +2,7 @@ package com.proyectofinal.carrentaladminapp.data.remote
 
 import com.proyectofinal.carrentaladminapp.data.model.BranchNewCar
 import com.proyectofinal.carrentaladminapp.data.model.Car
+import com.proyectofinal.carrentaladminapp.data.model.CarDetailsDTO
 import com.proyectofinal.carrentaladminapp.data.model.CarRegisterResponse
 import com.proyectofinal.carrentaladminapp.data.model.PageResponse
 import retrofit2.Response
@@ -27,6 +28,11 @@ interface CarApiService {
         @Query("size") size: Int = 10,
         @Query("brand") brand: String,
     ): PageResponse<Car>
+
+    @GET("/admin/car/{id}")
+    suspend fun getACarById(
+        @Path("id") id :Long
+    ) : Response<CarDetailsDTO>
 
     @POST("/admin/newcar")
     suspend fun newCar(@Body response: CarRegisterResponse) : CarRegisterResponse
