@@ -53,7 +53,9 @@ public class CarService {
                     car.getModel(),
                     car.getBrand(),
                     car.getBranch().getCity(),
-                    car.getBranch().getName()
+                    car.getBranch().getName(),
+                    car.getStatus()
+
                 )
             );
 
@@ -105,7 +107,8 @@ public class CarService {
                         car.getModel(),
                         car.getBrand(),
                         car.getBranch().getCity(),
-                        car.getBranch().getName()
+                        car.getBranch().getName(),
+                        car.getStatus()
                 ))
                 .toList();
 
@@ -135,7 +138,8 @@ public class CarService {
                         car.getModel(),
                         car.getBrand(),
                         car.getBranch().getCity(),
-                        car.getBranch().getName()
+                        car.getBranch().getName(),
+                        car.getStatus()
                 ))
                 .toList();
 
