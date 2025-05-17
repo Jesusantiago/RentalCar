@@ -24,7 +24,12 @@ class HomeViewModel : ViewModel(){
         getCars()
     }
 
-    public fun getCars(){
+    fun clearCarDetails() {
+        carDetailsState = null
+        errorState = null
+    }
+
+    fun getCars(){
         viewModelScope.launch {
             try {
                 val response = RetrofitCar.api.getCars()

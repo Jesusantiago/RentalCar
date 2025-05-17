@@ -40,7 +40,7 @@ fun CarPreviewScreen(car: Car, viewModel: HomeViewModel, navController: NavContr
 
     LaunchedEffect(carDetail) {
         if (carDetail != null) {
-            navController.navigate("carDetail") // ejemplo
+            navController.navigate("carDetail")
         }
     }
 
@@ -72,7 +72,6 @@ fun CarPreviewScreen(car: Car, viewModel: HomeViewModel, navController: NavContr
 
     Card(
         onClick = {
-            println("Hooooola desde El Car Preview")
             viewModel.getACar(car.id)
                   },
         modifier = Modifier
