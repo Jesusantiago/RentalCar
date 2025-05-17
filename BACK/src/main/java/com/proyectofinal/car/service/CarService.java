@@ -143,6 +143,8 @@ public class CarService {
                 ))
                 .toList();
 
+
+
         return new PageImpl<>(dtoList, pageable, cars.getTotalElements());
     }
 

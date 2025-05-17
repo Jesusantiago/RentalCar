@@ -1,6 +1,10 @@
 package com.proyectofinal.car.dto.car;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.proyectofinal.car.enums.StatusCar;
+
 
 public class CarPreviewDTO {
 
@@ -9,7 +13,7 @@ public class CarPreviewDTO {
     private String brand;
     private String branchCity;
     private String branchName;
-    private StatusCar statusCar;
+    private StatusCar status;
 
     public CarPreviewDTO(Long id, String model, String brand, String branchCity, String branchName, StatusCar statusCar) {
         this.id = id;
@@ -17,7 +21,7 @@ public class CarPreviewDTO {
         this.brand = brand;
         this.branchCity = branchCity;
         this.branchName = branchName;
-        this.statusCar = statusCar;
+        this.status = statusCar;
     }
 
     public Long getId() {
@@ -40,12 +44,13 @@ public class CarPreviewDTO {
         return branchName;
     }
 
+
     public StatusCar getStatusCar() {
-        return statusCar;
+        return status;
     }
 
     public void setStatusCar(StatusCar statusCar) {
-        this.statusCar = statusCar;
+        this.status = statusCar;
     }
 
 }
