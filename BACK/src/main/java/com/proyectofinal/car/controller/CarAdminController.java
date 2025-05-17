@@ -45,6 +45,11 @@ public class CarAdminController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/car/{id}")
+    public ResponseEntity<CarDetailsDTO> getCarById(@PathVariable Long id) {
+        CarDetailsDTO carDetailsDTO = carService.getCarById(id);
+        return ResponseEntity.ok(carDetailsDTO);
+    }
 
     @PostMapping("/newcar")
     public ResponseEntity<?> createANewCar(@RequestBody @Valid CarRegisterDTO car, BindingResult result) {
