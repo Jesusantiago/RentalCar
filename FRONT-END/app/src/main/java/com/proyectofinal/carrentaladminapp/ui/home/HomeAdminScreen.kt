@@ -84,6 +84,7 @@ import kotlinx.coroutines.withContext
 fun HomeAdminScreen(navController: NavController) {
     val viewModel: HomeViewModel = viewModel(LocalContext.current as ComponentActivity)
     val cars by viewModel.cars.collectAsState()
+    println("Hello World")
 
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -200,8 +201,6 @@ fun HomeAdminScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 FilterForBrand(viewModel)
-
-
 
                 LazyColumn(
                     modifier = Modifier

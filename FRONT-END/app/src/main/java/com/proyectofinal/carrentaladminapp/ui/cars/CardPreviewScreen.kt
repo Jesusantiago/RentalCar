@@ -1,7 +1,5 @@
 package com.proyectofinal.carrentaladminapp.ui.cars
 
-import android.net.http.UrlRequest.Status
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +17,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -31,7 +30,6 @@ import androidx.navigation.NavController
 import com.proyectofinal.carrentaladminapp.R
 import com.proyectofinal.carrentaladminapp.data.StatusCar
 import com.proyectofinal.carrentaladminapp.data.model.Car
-import com.proyectofinal.carrentaladminapp.data.remote.RetrofitCar
 import com.proyectofinal.carrentaladminapp.ui.home.HomeViewModel
 
 @Composable
@@ -39,11 +37,13 @@ fun CarPreviewScreen(car: Car, viewModel: HomeViewModel, navController: NavContr
     val carDetail = viewModel.carDetailsState
     val error = viewModel.errorState
 
+
     LaunchedEffect(carDetail) {
         if (carDetail != null) {
-            navController.navigate("carDetail")
+            navController.navigate("carDetail") // ejemplo
         }
     }
+
 
     if (error != null){
         println("Hubo un error")
@@ -72,6 +72,7 @@ fun CarPreviewScreen(car: Car, viewModel: HomeViewModel, navController: NavContr
 
     Card(
         onClick = {
+            println("Hooooola desde El Car Preview")
             viewModel.getACar(car.id)
                   },
         modifier = Modifier
@@ -90,7 +91,8 @@ fun CarPreviewScreen(car: Car, viewModel: HomeViewModel, navController: NavContr
                 modifier = Modifier
                     .fillMaxWidth()
                     .size(160.dp)
-                    .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))     .background(Color.LightGray), // mientras carga
+                    .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
+                    .background(Color.LightGray), // mientras carga
                 contentScale = ContentScale.Crop
             )
             Column(

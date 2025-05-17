@@ -60,6 +60,7 @@ class HomeViewModel : ViewModel(){
                 val response = RetrofitCar.api.getACarById(id = id)
                 if (response.isSuccessful){
                     carDetailsState = response.body()
+                    println("ACAAAAAA" + response.body())
                     errorState = null
                 } else {
                     errorState = "Hubo un problema para encontrar el auto"
