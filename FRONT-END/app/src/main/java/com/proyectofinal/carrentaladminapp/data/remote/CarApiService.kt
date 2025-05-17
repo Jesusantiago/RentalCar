@@ -19,7 +19,13 @@ interface CarApiService {
         @Query("size") size: Int = 10,
         @Query("sortBy") sortBy: String = "brand",
         @Query("direction") direction: String = "asc",
-        @Query("status") status: String="AVAILABLE"
+    ): PageResponse<Car>
+
+    @GET("/admin/search")
+    suspend fun getCarsByBrand(
+        @Query("page") page: Int = 0,
+        @Query("size") size: Int = 10,
+        @Query("brand") brand: String,
     ): PageResponse<Car>
 
     @POST("/admin/newcar")

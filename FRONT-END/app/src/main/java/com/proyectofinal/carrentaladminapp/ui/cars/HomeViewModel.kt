@@ -34,5 +34,16 @@ class HomeViewModel : ViewModel(){
     fun removeCarFromList(id: Long) {
         _cars.value = _cars.value.filter { it.id != id }
     }
+
+    fun getCarsByBrand(brand: String) {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitCar.api.getCarsByBrand(brand = brand)
+                _cars.value = response.content // o como lo manejes
+            } catch (e: Exception) {
+                println("Error: ${e.message}")
+            }
+        }
+    }
 }
 
