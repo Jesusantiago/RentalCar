@@ -1,6 +1,5 @@
 package com.proyectofinal.carrentaladminapp.ui.home
 
-import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -22,11 +21,6 @@ class HomeViewModel : ViewModel(){
 
     init {
         getCars()
-    }
-
-    fun clearCarDetails() {
-        carDetailsState = null
-        errorState = null
     }
 
     fun getCars(){

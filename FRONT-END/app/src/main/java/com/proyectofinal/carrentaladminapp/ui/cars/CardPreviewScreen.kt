@@ -34,20 +34,20 @@ import com.proyectofinal.carrentaladminapp.ui.home.HomeViewModel
 
 @Composable
 fun CarPreviewScreen(car: Car, viewModel: HomeViewModel, navController: NavController){
-    val carDetail = viewModel.carDetailsState
-    val error = viewModel.errorState
-
-
-    LaunchedEffect(carDetail) {
-        if (carDetail != null) {
-            navController.navigate("carDetail")
-        }
-    }
-
-
-    if (error != null){
-        println("Hubo un error")
-    }
+//    val carDetail = viewModel.carDetailsState
+//    val error = viewModel.errorState
+//
+//
+//    LaunchedEffect(carDetail) {
+//        if (carDetail != null) {
+//            navController.navigate("carDetail")
+//        }
+//    }
+//
+//
+//    if (error != null){
+//        println("Hubo un error")
+//    }
 
     val statusText = when (car.statusCar) {
         StatusCar.AVAILABLE -> "Disponible"
@@ -72,7 +72,7 @@ fun CarPreviewScreen(car: Car, viewModel: HomeViewModel, navController: NavContr
 
     Card(
         onClick = {
-            viewModel.getACar(car.id)
+            navController.navigate("carDetail/${car.id}" )
                   },
         modifier = Modifier
             .fillMaxWidth(),

@@ -28,7 +28,11 @@ fun AppNavigation(navController: NavHostController) {
         composable("register") { RegisterScreen(navController) }
         composable("home") { HomeAdminScreen(navController)}
         composable("newcar") { NewCarScreen(navController) }
-        composable("carDetail") {CarDetailScreen(navController)}
+        composable("carDetail/{carId}") { backStackEntry ->
+            val carId = backStackEntry.arguments?.getString("carId")?.toLong() ?: -1L
+            CarDetailScreen(carId = carId, navController = navController)
+        }
+
     }
 }
 
