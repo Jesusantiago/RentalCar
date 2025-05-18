@@ -23,7 +23,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun LoginPasswordScreen(navController: NavHostController, emailUser: String) {
     val context = LocalContext.current
-    // Estados locales para email y password
     var password by remember { mutableStateOf("") }
 
     Box(
@@ -69,7 +68,7 @@ fun LoginPasswordScreen(navController: NavHostController, emailUser: String) {
                             if (response.isSuccessful) {
                                 launch(Dispatchers.Main) {
                                     Toast.makeText(context, "Login exitoso", Toast.LENGTH_LONG).show()
-                                    navController.navigate("home") // Cambia esto según tu flujo
+                                    navController.navigate("admin")
                                 }
                             } else {
                                 launch(Dispatchers.Main) {

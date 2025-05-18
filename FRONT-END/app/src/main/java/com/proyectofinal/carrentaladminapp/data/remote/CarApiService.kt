@@ -5,11 +5,14 @@ import com.proyectofinal.carrentaladminapp.data.model.Car
 import com.proyectofinal.carrentaladminapp.data.model.CarDetailsDTO
 import com.proyectofinal.carrentaladminapp.data.model.CarRegisterResponse
 import com.proyectofinal.carrentaladminapp.data.model.PageResponse
+import com.proyectofinal.carrentaladminapp.data.model.UpdateCarDTO
+import okhttp3.Request
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -39,6 +42,12 @@ interface CarApiService {
 
     @GET("/admin/branchs")
     suspend fun branchForNewCar(): List<BranchNewCar>
+
+    @PUT("/admin/car/{id}")
+    suspend fun updateACar(
+        @Path("id") id : Long,
+        @Body request: UpdateCarDTO
+    ) : Response<CarDetailsDTO>
 
     @DELETE("/admin/car/{id}")
     suspend fun deleteCar(

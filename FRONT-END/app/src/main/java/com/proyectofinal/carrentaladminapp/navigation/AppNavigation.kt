@@ -6,18 +6,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.proyectofinal.carrentaladminapp.login.LoginUserNameScreen
-import com.proyectofinal.carrentaladminapp.ui.cars.CarDetailScreen
-import com.proyectofinal.carrentaladminapp.ui.cars.NewCarScreen
 import com.proyectofinal.carrentaladminapp.ui.login.LoginPasswordScreen
 import com.proyectofinal.carrentaladminapp.ui.components.WelcomeScreen
-import com.proyectofinal.carrentaladminapp.ui.home.HomeAdminScreen
+import com.proyectofinal.carrentaladminapp.ui.home.AdminMainScreen
 import com.proyectofinal.carrentaladminapp.ui.register.RegisterScreen
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
 
-
-    NavHost( navController, startDestination = "home") {
+    NavHost( navController, startDestination = "admin") {
         composable("welcome") { WelcomeScreen(navController) }
         composable("login_username") { LoginUserNameScreen(navController) }
         composable("login_password/{username}", arguments = listOf(navArgument("username"){
@@ -26,13 +23,7 @@ fun AppNavigation(navController: NavHostController) {
             val username = backStackEntry.arguments?.getString("username") ?: ""
             LoginPasswordScreen(navController, username)}
         composable("register") { RegisterScreen(navController) }
-        composable("home") { HomeAdminScreen(navController)}
-        composable("newcar") { NewCarScreen(navController) }
-        composable("carDetail/{carId}") { backStackEntry ->
-            val carId = backStackEntry.arguments?.getString("carId")?.toLong() ?: -1L
-            CarDetailScreen(carId = carId, navController = navController)
-        }
-
+        composable("admin") { AdminMainScreen() }
     }
 }
 

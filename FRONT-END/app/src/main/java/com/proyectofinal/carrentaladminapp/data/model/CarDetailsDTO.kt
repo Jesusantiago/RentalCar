@@ -6,7 +6,7 @@ data class CarDetailsDTO(
     val model : String,
     val carYear : Int,
     val licensePlate : String,
-    val CarBranchDetailsDTO: CarBranchDetails
+    val branch: CarBranchDetails
 )
 
 data class CarBranchDetails(

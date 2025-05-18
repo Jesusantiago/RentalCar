@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.proyectofinal.carrentaladminapp.data.model.Car
 import com.proyectofinal.carrentaladminapp.data.model.CarDetailsDTO
+import com.proyectofinal.carrentaladminapp.data.model.UpdateCarDTO
 import com.proyectofinal.carrentaladminapp.data.remote.RetrofitCar
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +16,9 @@ import kotlinx.coroutines.launch
 class HomeViewModel : ViewModel(){
     private val _cars = MutableStateFlow<List<Car>>(emptyList())
     var carDetailsState by mutableStateOf<CarDetailsDTO?>(null)
+        private set
     var errorState by mutableStateOf<String?>(null)
+    private set
 
     val cars: StateFlow<List<Car>> = _cars
 
@@ -67,6 +70,42 @@ class HomeViewModel : ViewModel(){
             } catch (e : Exception){
                 print("Error: ${e.message}")
             }
+        }
+    }
+
+    fun updateACar(id: Long, dateForUpdate : UpdateCarDTO){
+        viewModelScope.launch {
+            try {
+                val response = RetrofitCar.api.updateACar(id = id, request = dateForUpdate)
+
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        carDetailsState = it
+                    } ?: run {
+                        println("Respuesta exitosa pero sin cuerpo")
+                    }
+                } else {
+                    println("Fallo la actualización: ${response.code()} ${response.message()}")
+                }
+
+            } catch (e : Exception){
+                println("Error ${e.message}")
+            }
+        }
+    }
+
+    fun deleteCar(id : Long){
+        viewModelScope.launch{
+            try {
+                var response = RetrofitCar.api.deleteCar(id = id)
+
+                if (response.code() != 204){
+                    println("Hubo un error al eliminar este auto")
+                }
+            } catch (e: Exception){
+                println("Error: ${e.message}")
+            }
+
         }
     }
 }

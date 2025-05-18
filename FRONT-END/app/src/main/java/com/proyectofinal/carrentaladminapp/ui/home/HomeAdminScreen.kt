@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -81,13 +82,10 @@ import kotlinx.coroutines.withContext
 @SuppressLint("ContextCastToActivity")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeAdminScreen(navController: NavController) {
+fun HomeAdminScreen(navController: NavController, paddingValues: PaddingValues) {
     val viewModel: HomeViewModel = viewModel(LocalContext.current as ComponentActivity)
     val cars by viewModel.cars.collectAsState()
-    println("Hello World")
 
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
 
     val searchQueryState = rememberTextFieldState()
     var filteredCars by rememberSaveable { mutableStateOf(cars) }
@@ -95,7 +93,7 @@ fun HomeAdminScreen(navController: NavController) {
 
     LaunchedEffect(cars) {
         filteredCars = cars
-        print("Esto es filteredcar: ${filteredCars}")
+        println("Esto es filteredcar: ${filteredCars}")
     }
 
     LaunchedEffect(Unit) {
@@ -103,159 +101,54 @@ fun HomeAdminScreen(navController: NavController) {
         println("Lista de autos actualizada, total: ${cars.size}")
     }
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 40.dp, bottom = 0.dp)
-                        .height(150.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.store_profile_back),
-                        contentDescription = "User Icon",
-                        modifier = Modifier
-                            .size(64.dp)
-                    )
-                    Text(
-                        text= "Admin Name",
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                    Text("Ciudad", style = MaterialTheme.typography.bodySmall)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
+                end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
+                bottom = paddingValues.calculateBottomPadding())
+    )
+    {
 
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    TextButton(
-                        onClick = {/*TODO */}
-                    ) {
-                        Text(text = "Ver información")
-                    }
-                }
-
-                NavigationDrawerItem(
-                    label = { Text("Ver todos los autos") },
-                    selected = false,
-                    onClick = { /* Ir a inicio */ }
-                )
-                NavigationDrawerItem(
-                    label = { Text("Ver todas las sucursales") },
-                    selected = false,
-                    onClick = { /* Ir a inicio */ }
-                )
-                NavigationDrawerItem(
-                    label = { Text("Ver todas las rentas") },
-                    selected = false,
-                    onClick = { /* Ir a inicio */ }
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-                NavigationDrawerItem(
-                    label = { Text("Cerrar sesión", color= Color.White) },
-                    selected = false,
-                    onClick = { navController.navigate("welcome") },
-                    modifier = Modifier.background(Color.Red)
-                )
-            }
-        }
-    ) {
-        // <-- ¡El Scaffold va adentro de este bloque!
-        Scaffold(
-            topBar = {
-                AdminTopBar {
-                    scope.launch { drawerState.open()
-                    }
+        SearchBarUI(
+            modifier = Modifier.fillMaxWidth(),
+            textFieldState = searchQueryState,
+            onSearch = {
+                query = it
+                filteredCars = cars.filter { car ->
+                    car.brand.contains(it, ignoreCase = true) ||
+                            car.model.contains(it, ignoreCase = true)
                 }
             },
-            floatingActionButton = {
-                FloatingActionButton(onClick = { navController.navigate("newcar") }) {
-                    Icon(Icons.Default.Add, contentDescription = "Add cars")
-                }
-            }
-        ) { paddingValues ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(
-                        start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
-                        end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
-                        bottom = paddingValues.calculateBottomPadding()
-                    )
-            ) {
-                Spacer(modifier = Modifier.height(56.dp))
+            searchResults = cars.map { "${it.brand} ${it.model}" },
+        )
+        Spacer(modifier = Modifier.height(16.dp))
 
-                SearchBarUI(
-                    modifier = Modifier.fillMaxWidth(),
-                    textFieldState = searchQueryState,
-                    onSearch = {
-                        query = it
-                        filteredCars = cars.filter { car ->
-                            car.brand.contains(it, ignoreCase = true) ||
-                                    car.model.contains(it, ignoreCase = true)
-                        }
-                    },
-                    searchResults = cars.map { "${it.brand} ${it.model}" },
-                )
-                Spacer(modifier = Modifier.height(16.dp))
+        FilterForBrand(viewModel)
 
-                FilterForBrand(viewModel)
-
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                ) {
-                    items(filteredCars) { car ->
-                        CarPreviewScreen(car, viewModel, navController)
-                        Spacer(modifier = Modifier.height(12.dp))
-                    }
-                }
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        ) {
+            items(filteredCars) { car ->
+                CarPreviewScreen(car, viewModel, navController)
+                Spacer(modifier = Modifier.height(12.dp))
             }
         }
     }
-
-}
-
-@Composable
-fun AdminTopBar(onMenuClick: () -> Unit) {
-    TopAppBar(
-        title = { Text("RentalCars Admin") },
-        navigationIcon = {
-            IconButton(onClick = onMenuClick) {
-                Icon(Icons.Default.Menu, contentDescription = "Open menu")
-            }
-        }
-    )
 }
 
 
-
-@Preview
-@Composable
-fun HomeAdminScreenPreview(){
-    val navController = rememberNavController()
-    HomeAdminScreen(navController)
-}
 
 //
-//Text("${car.brand} ${car.model}")
-//IconButton(onClick = {
-//    CoroutineScope(Dispatchers.IO).launch {
-//        try {
-//            val response = RetrofitCar.api.deleteCar(car.id.toLong())
-//            if (response.isSuccessful()) {
-//                withContext(Dispatchers.Main) {
-//                    viewModel.getCars()
-//                }
-//            } else {
-//                println("Error al borrar: ${response.code()}")
-//            }
-//        } catch (e: Exception) {
-//            println("ERROR: ${e.message}")
-//        }
-//    }
-//}) {
-//    Icon(Icons.Default.Delete, contentDescription = "Delete Car", tint = Color.Red)
+//
+//@Preview
+//@Composable
+//fun HomeAdminScreenPreview(){
+//    val navController = rememberNavController()
+//    HomeAdminScreen(navController)
 //}
+
+//        Spacer(modifier = Modifier.height(56.dp))
