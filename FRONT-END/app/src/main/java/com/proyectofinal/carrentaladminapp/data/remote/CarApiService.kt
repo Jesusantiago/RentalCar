@@ -60,4 +60,24 @@ interface CarApiService {
     @GET("/admin/branch/{id}")
     suspend fun getBranchById(@Path("id") id: Long) : Response<BranchDTO>
 
+    @GET("/admin/branches")
+    suspend fun getAllBranches() : Response<List<BranchDTO>>
+
+    @POST("/admin/branch")
+    suspend fun createBranch(@Body branch: BranchDTO): Response<BranchDTO>
+
+    @PUT("/admin/branches/{id}")
+    suspend fun updateABranch(
+        @Path("id") id: Long,
+        @Body request: BranchDTO
+    ) : Response<BranchDTO>
+
+    @DELETE("/admin/branches/{id}")
+    suspend fun deleteABranch(
+        @Path("id") id: Long
+    ) : Response<Void>
+
+
+
+
 }

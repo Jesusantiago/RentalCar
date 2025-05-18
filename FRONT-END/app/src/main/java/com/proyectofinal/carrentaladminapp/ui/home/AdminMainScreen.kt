@@ -43,6 +43,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.proyectofinal.carrentaladminapp.R
+import com.proyectofinal.carrentaladminapp.ui.branch.AddBranchScreen
+import com.proyectofinal.carrentaladminapp.ui.branch.AllBranchesScreen
+import com.proyectofinal.carrentaladminapp.ui.branch.BranchDetailScreen
+import com.proyectofinal.carrentaladminapp.ui.branch.UpdateBranchScreen
 import com.proyectofinal.carrentaladminapp.ui.cars.CarDetailScreen
 import com.proyectofinal.carrentaladminapp.ui.cars.NewCarScreen
 import com.proyectofinal.carrentaladminapp.ui.cars.UpdateCarScreen
@@ -86,7 +90,7 @@ fun AdminMainScreen(){
                     Spacer(modifier = Modifier.height(12.dp))
 
                     TextButton(
-                        onClick = {/*TODO */}
+                        onClick = { navController.navigate("branchDetail")}
                     ) {
                         Text(text = "Ver información")
                     }
@@ -102,7 +106,7 @@ fun AdminMainScreen(){
                 NavigationDrawerItem(
                     label = { Text("Ver todas las sucursales") },
                     selected = false,
-                    onClick = { /* Ir a inicio */ }
+                    onClick = { navController.navigate("allBranches") }
                 )
                 NavigationDrawerItem(
                     label = { Text("Ver todas las rentas") },
@@ -160,6 +164,15 @@ fun AdminMainScreen(){
                     val carId = backStackEntry.arguments?.getString("carId")?.toLong() ?: -1L
                     UpdateCarScreen(carId = carId, navController = navController, paddingValues)
                 }
+                composable("branchDetail") {
+                    BranchDetailScreen(viewModel, paddingValues, navController )
+                }
+                composable("allBranches") {
+                    AllBranchesScreen(viewModel, paddingValues, navController)
+                }
+
+                composable("updateBranch") { UpdateBranchScreen(viewModel, paddingValues, navController) }
+                composable("createBranch") { AddBranchScreen(viewModel, paddingValues, navController) }
 
             }
 

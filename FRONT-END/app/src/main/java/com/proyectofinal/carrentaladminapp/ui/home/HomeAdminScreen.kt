@@ -54,16 +54,13 @@ fun HomeAdminScreen(navController: NavController, paddingValues: PaddingValues, 
     var isFiltering by rememberSaveable { mutableStateOf(false) }
     var hasRefreshed by remember { mutableStateOf(false) }
 
-    var hasBranchLoaded by remember { mutableStateOf(false) }
-
     LaunchedEffect(refresh) {
         if (refresh && !hasRefreshed) {
             viewModel.resetAndFetchCars()
-            viewModel.getBranch(1L)
             hasRefreshed = true
-            hasBranchLoaded = true
         }
     }
+
 
     LaunchedEffect(cars) {
         filteredCars = cars

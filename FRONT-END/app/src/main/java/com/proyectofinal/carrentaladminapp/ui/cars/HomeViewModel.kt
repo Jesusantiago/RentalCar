@@ -17,6 +17,15 @@ class HomeViewModel : ViewModel(){
     private val _branch = mutableStateOf< BranchDTO?>(null)
     val branch: State<BranchDTO?> = _branch
 
+    var branchList by mutableStateOf<List<BranchDTO>>(emptyList())
+        private set
+
+    var carDetailsState by mutableStateOf<CarDetailsDTO?>(null)
+        private set
+
+    var errorState by mutableStateOf<String?>(null)
+        private set
+
     private val _cars = mutableStateOf(listOf<Car>())
     val cars: State<List<Car>> = _cars
 
@@ -27,13 +36,13 @@ class HomeViewModel : ViewModel(){
     var currentBrandPage by mutableStateOf(0)
     var totalBrandPages by mutableStateOf(1)
 
-    var carDetailsState by mutableStateOf<CarDetailsDTO?>(null)
-        private set
-    var errorState by mutableStateOf<String?>(null)
-        private set
+    fun setBranch(branch: BranchDTO) {
+        _branch.value = branch
+    }
 
     init {
         getCars()
+        getBranch(1L)
     }
 
     fun resetAndFetchCars() {
@@ -135,6 +144,7 @@ class HomeViewModel : ViewModel(){
             try {
                 val response = RetrofitCar.api.getBranchById(branchId)
                 if (response.isSuccessful) {
+                    println("ESTO ES LA BRANCH: " + response.body())
                     _branch.value = response.body()
                 } else {
                     println("Error al obtener la branch: ${response.code()}")
@@ -144,4 +154,70 @@ class HomeViewModel : ViewModel(){
             }
         }
     }
+
+    fun getAllBranches(){
+        viewModelScope.launch {
+            try {
+                val response = RetrofitCar.api.getAllBranches()
+
+                if (response.isSuccessful){
+                    branchList = response.body() ?: emptyList()
+                } else {
+                    println("Hubo un error en la carga de Sucursales")
+                }
+            } catch (e: Exception){
+                println("Error: ${e.message}")
+            }
+        }
+    }
+
+    fun updateBranch(id: Long, updatedBranch: BranchDTO) {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitCar.api.updateABranch(id, updatedBranch)
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        _branch.value = it
+                        println("Sucursal actualizada con éxito")
+                    }
+                } else {
+                    println("Error al actualizar sucursal: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                println("Excepción al actualizar sucursal: ${e.message}")
+            }
+        }
+    }
+
+    fun createBranch(newBranch: BranchDTO) {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitCar.api.createBranch(newBranch)
+                if (response.isSuccessful) {
+                    println("Sucursal creada correctamente: ${response.body()}")
+                } else {
+                    println("Error al crear la sucursal: Código ${response.code()}, Body: ${response.errorBody()?.string()}")
+                }
+            } catch (e: Exception) {
+                println("Excepción al crear la sucursal: ${e.message}")
+            }
+        }
+    }
+
+    fun deleteBranch(id: Long) {
+        viewModelScope.launch {
+            try {
+                val response = RetrofitCar.api.deleteABranch(id)
+
+                if (response.code() != 204){
+                    println("Hubo un error al eliminar este auto")
+                }
+            } catch (e: Exception){
+                println("Error: ${e.message}")
+            }
+        }
+    }
+
+
 }
+
