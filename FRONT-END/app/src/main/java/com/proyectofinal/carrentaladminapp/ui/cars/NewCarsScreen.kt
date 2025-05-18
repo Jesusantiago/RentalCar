@@ -165,7 +165,9 @@ fun NewCarScreen(navController: NavController) {
 
                             launch(Dispatchers.Main) {
                                 Toast.makeText(context, "Producto agregado correctamente", Toast.LENGTH_LONG).show()
-                                navController.navigate("home")
+                                navController.navigate("home?refresh=true") {
+                                    popUpTo("home") { inclusive = true }
+                                }
 
                             }
 

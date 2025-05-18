@@ -32,7 +32,6 @@ fun SearchBarUI(
     searchResults: List<String>,
     modifier: Modifier = Modifier
 ) {
-    // Controls expansion state of the search bar
     var expanded by rememberSaveable { mutableStateOf(false) }
 
     Box(
@@ -59,7 +58,6 @@ fun SearchBarUI(
             expanded = expanded,
             onExpandedChange = { expanded = it },
         ) {
-            // Display search results in a scrollable column
             Column(Modifier.verticalScroll(rememberScrollState())) {
                 searchResults.forEach { result ->
                     ListItem(

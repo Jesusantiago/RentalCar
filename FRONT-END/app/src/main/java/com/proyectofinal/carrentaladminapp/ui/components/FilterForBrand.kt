@@ -24,12 +24,12 @@ import com.proyectofinal.carrentaladminapp.ui.home.HomeViewModel
 data class BrandFilter(val name: String, val imageRes: Int)
 
 val brandFilter = listOf(
-    BrandFilter("Alfaromeo", R.drawable.logo_alfaromeo),
+    BrandFilter("Alfa Romeo", R.drawable.logo_alfaromeo),
     BrandFilter("Astor Martin", R.drawable.logo_astormartin),
     BrandFilter("Audi", R.drawable.logo_audi),
-    BrandFilter("Bmw", R.drawable.logo_bmw),
-    BrandFilter("Cadillac", R.drawable.logo_cadillac),
-    BrandFilter("Chovrolet", R.drawable.logo_chevrolet),
+    BrandFilter("BMW", R.drawable.logo_bmw),
+    BrandFilter("Fiat", R.drawable.logo_fiat),
+    BrandFilter("Chevrolet", R.drawable.logo_chevrolet),
     BrandFilter("Ferrari", R.drawable.logo_ferrari),
     BrandFilter("Ford", R.drawable.logo_ford),
     BrandFilter("Honda", R.drawable.logo_honda),
@@ -45,28 +45,22 @@ fun FilterForBrand(viewModel: HomeViewModel) {
             .fillMaxWidth()
             .padding(horizontal = 8.dp)
     ) {
-    items(brandFilter) { brand ->
-        Card(
-            onClick = { viewModel.getCarsByBrand(brand.name)},
-            modifier = Modifier
-                .padding(end = 8.dp)
-                .size(85.dp)
-        ) {
-            Image(
-                painter = painterResource(id = brand.imageRes),
-                contentDescription = "logo ",
+        items(brandFilter) { brand ->
+            Card(
+                onClick = { viewModel.getCarsByBrand(brand.name) },
                 modifier = Modifier
-                    .fillMaxSize()
-            )
+                    .padding(end = 8.dp)
+                    .size(85.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = brand.imageRes),
+                    contentDescription = "logo ",
+                    modifier = Modifier
+                        .fillMaxSize()
+                )
+            }
         }
-    }
 
 
     }
 }
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun FilterForBrandPreview(){
-//    FilterForBrand()
-//}

@@ -16,8 +16,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -33,22 +31,7 @@ import com.proyectofinal.carrentaladminapp.data.model.Car
 import com.proyectofinal.carrentaladminapp.ui.home.HomeViewModel
 
 @Composable
-fun CarPreviewScreen(car: Car, viewModel: HomeViewModel, navController: NavController){
-//    val carDetail = viewModel.carDetailsState
-//    val error = viewModel.errorState
-//
-//
-//    LaunchedEffect(carDetail) {
-//        if (carDetail != null) {
-//            navController.navigate("carDetail")
-//        }
-//    }
-//
-//
-//    if (error != null){
-//        println("Hubo un error")
-//    }
-
+fun CarPreviewScreen(car: Car, viewModel: HomeViewModel, navController: NavController) {
     val statusText = when (car.statusCar) {
         StatusCar.AVAILABLE -> "Disponible"
         StatusCar.RENTAL -> "Rentado"
@@ -56,14 +39,14 @@ fun CarPreviewScreen(car: Car, viewModel: HomeViewModel, navController: NavContr
         StatusCar.CANCELLED -> "Cancelado"
     }
 
-    val backgroundColor = when (car.statusCar){
+    val backgroundColor = when (car.statusCar) {
         StatusCar.AVAILABLE -> Color.Green
         StatusCar.RENTAL -> Color.Red
         StatusCar.MAINTENANCE -> Color.Yellow
         StatusCar.CANCELLED -> Color.Red
     }
 
-    val textColor = when (car.statusCar){
+    val textColor = when (car.statusCar) {
         StatusCar.AVAILABLE -> Color.Black
         StatusCar.RENTAL -> Color.White
         StatusCar.MAINTENANCE -> Color.Black
@@ -72,8 +55,8 @@ fun CarPreviewScreen(car: Car, viewModel: HomeViewModel, navController: NavContr
 
     Card(
         onClick = {
-            navController.navigate("carDetail/${car.id}" )
-                  },
+            navController.navigate("carDetail/${car.id}")
+        },
         modifier = Modifier
             .fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
@@ -97,7 +80,7 @@ fun CarPreviewScreen(car: Car, viewModel: HomeViewModel, navController: NavContr
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp,)
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
             )
             {
                 Row(
@@ -105,12 +88,12 @@ fun CarPreviewScreen(car: Car, viewModel: HomeViewModel, navController: NavContr
                 ) {
                     Text(car.model, fontWeight = FontWeight.Bold, fontSize = 20.sp)
                     Spacer(modifier = Modifier.weight(1f))
-                    Text(car.brand,fontWeight = FontWeight.Medium, fontSize = 20.sp)
+                    Text(car.brand, fontWeight = FontWeight.Medium, fontSize = 20.sp)
                 }
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Row {
-                    Text(car.branchName, fontWeight = FontWeight.Medium , fontSize = 18.sp)
+                    Text(car.branchName, fontWeight = FontWeight.Medium, fontSize = 18.sp)
                     Spacer(modifier = Modifier.weight(1f))
                     Text(car.branchCity, fontWeight = FontWeight.Medium, fontSize = 18.sp)
                 }
@@ -123,7 +106,12 @@ fun CarPreviewScreen(car: Car, viewModel: HomeViewModel, navController: NavContr
                         .background(backgroundColor, shape = RoundedCornerShape(12.dp))
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                 ) {
-                    Text(statusText, color = textColor, fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                    Text(
+                        statusText,
+                        color = textColor,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Medium
+                    )
                 }
 
             }

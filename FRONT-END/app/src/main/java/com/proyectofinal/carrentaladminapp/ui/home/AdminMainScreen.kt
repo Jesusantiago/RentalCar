@@ -1,5 +1,7 @@
 package com.proyectofinal.carrentaladminapp.ui.home
 
+import android.annotation.SuppressLint
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -30,24 +32,31 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.proyectofinal.carrentaladminapp.R
 import com.proyectofinal.carrentaladminapp.ui.cars.CarDetailScreen
 import com.proyectofinal.carrentaladminapp.ui.cars.NewCarScreen
 import com.proyectofinal.carrentaladminapp.ui.cars.UpdateCarScreen
 import kotlinx.coroutines.launch
 
+@SuppressLint("ContextCastToActivity")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdminMainScreen(){
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val viewModel : HomeViewModel = viewModel(LocalContext.current as ComponentActivity)
+    val branch = viewModel.branch.value
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -57,7 +66,7 @@ fun AdminMainScreen(){
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 40.dp, bottom = 0.dp)
-                        .height(150.dp),
+                        .height(155.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(
@@ -67,10 +76,12 @@ fun AdminMainScreen(){
                             .size(64.dp)
                     )
                     Text(
-                        text= "Admin Name",
+                        text= branch?.name ?: "Cargando...",
                         style = MaterialTheme.typography.titleLarge
                     )
-                    Text("Ciudad", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        text = branch?.city ?: "Cargando...",
+                        style = MaterialTheme.typography.bodySmall)
 
                     Spacer(modifier = Modifier.height(12.dp))
 
@@ -84,7 +95,9 @@ fun AdminMainScreen(){
                 NavigationDrawerItem(
                     label = { Text("Ver todos los autos") },
                     selected = false,
-                    onClick = { navController.navigate("home") }
+                    onClick = {     navController.navigate("home?refresh=true") {
+                        popUpTo("home") { inclusive = true }
+                    } }
                 )
                 NavigationDrawerItem(
                     label = { Text("Ver todas las sucursales") },
@@ -126,7 +139,18 @@ fun AdminMainScreen(){
                 startDestination = "home",
                 modifier = Modifier.fillMaxSize()
             ) {
-                composable("home") { HomeAdminScreen(navController,paddingValues)}
+                composable(
+                    "home?refresh={refresh}",
+                    arguments = listOf(
+                        navArgument("refresh") {
+                            defaultValue = "false"
+                            type = NavType.StringType
+                        }
+                    )
+                ) { backStackEntry ->
+                    val refresh = backStackEntry.arguments?.getString("refresh") == "true"
+                    HomeAdminScreen(navController, paddingValues, refresh)
+                }
                 composable("newcar") { NewCarScreen(navController) }
                 composable("carDetail/{carId}") { backStackEntry ->
                     val carId = backStackEntry.arguments?.getString("carId")?.toLong() ?: -1L

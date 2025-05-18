@@ -1,5 +1,6 @@
 package com.proyectofinal.carrentaladminapp.data.remote
 
+import com.proyectofinal.carrentaladminapp.data.model.BranchDTO
 import com.proyectofinal.carrentaladminapp.data.model.BranchNewCar
 import com.proyectofinal.carrentaladminapp.data.model.Car
 import com.proyectofinal.carrentaladminapp.data.model.CarDetailsDTO
@@ -17,18 +18,19 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface CarApiService {
+
     @GET("/admin/search")
     suspend fun getCars(
-        @Query("page") page: Int = 0,
-        @Query("size") size: Int = 10,
+        @Query("page") page: Int,
+        @Query("size") size: Int,
         @Query("sortBy") sortBy: String = "brand",
         @Query("direction") direction: String = "asc",
-    ): PageResponse<Car>
+    ): Response<PageResponse<Car>>
 
     @GET("/admin/search")
     suspend fun getCarsByBrand(
-        @Query("page") page: Int = 0,
-        @Query("size") size: Int = 10,
+        @Query("page") page: Int,
+        @Query("size") size: Int,
         @Query("brand") brand: String,
     ): PageResponse<Car>
 
@@ -40,7 +42,7 @@ interface CarApiService {
     @POST("/admin/newcar")
     suspend fun newCar(@Body response: CarRegisterResponse) : CarRegisterResponse
 
-    @GET("/admin/branchs")
+    @GET("/admin/branchsCar")
     suspend fun branchForNewCar(): List<BranchNewCar>
 
     @PUT("/admin/car/{id}")
@@ -53,4 +55,9 @@ interface CarApiService {
     suspend fun deleteCar(
         @Path("id") id: Long
     ) : Response<Void>
+
+
+    @GET("/admin/branch/{id}")
+    suspend fun getBranchById(@Path("id") id: Long) : Response<BranchDTO>
+
 }
