@@ -14,7 +14,7 @@ import com.proyectofinal.carrentaladminapp.ui.register.RegisterScreen
 @Composable
 fun AppNavigation(navController: NavHostController) {
 
-    NavHost( navController, startDestination = "admin") {
+    NavHost( navController, startDestination = "welcome") {
         composable("welcome") { WelcomeScreen(navController) }
         composable("login_username") { LoginUserNameScreen(navController) }
         composable("login_password/{username}", arguments = listOf(navArgument("username"){

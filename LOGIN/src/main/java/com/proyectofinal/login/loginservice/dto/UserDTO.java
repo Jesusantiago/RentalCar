@@ -6,11 +6,6 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
-/**
- *  Clase UserDTO es la encargada de verificar que todos los datos obtenidos desde el Request del POST [api/users]
- *      serán en el formato correcto y no esten vacios.
- */
-
 public class UserDTO {
 
     @NotBlank(message = "El nombre no puede estar vacío.")

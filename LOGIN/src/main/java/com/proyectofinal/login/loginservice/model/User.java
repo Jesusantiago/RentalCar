@@ -3,7 +3,6 @@ package com.proyectofinal.login.loginservice.model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
-
 @Entity
 @Table(name="users")
 public class User {
@@ -33,7 +32,6 @@ public class User {
     @Column()
     private LocalDate dateOfBirth;
 
-    /* GETTERS AND SETTERS */
     public Long getId() {
         return id;
     }
@@ -98,16 +96,4 @@ public class User {
         this.dateOfBirth = fechaNacimiento;
     }
 
-    @Override
-    public String toString() {
-        return "userses{" +
-                "id=" + id +
-                ", nombre='" + name + '\'' +
-                ", apellido='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", tipoLicencia='" + licenseType + '\'' +
-                ", fechaNacimiento=" + dateOfBirth +
-                '}';
-    }
 }

@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/admin")
@@ -63,9 +63,9 @@ public class RentalAdminController {
     public ResponseEntity<Void> deleteRental(@PathVariable Long id) {
         try {
             rentalService.deleteRental(id);
-            return ResponseEntity.noContent().build(); // 204 No Content
+            return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build(); // 404 Not Found si no existe
+            return ResponseEntity.notFound().build();
         }
     }
 }

@@ -30,14 +30,13 @@ public class Branch {
     private List<Car> cars;
 
     @OneToMany(mappedBy = "branchFrom")
-//    @JsonManagedReference
+
     private List<Rental> rentalsFrom;
 
     @OneToMany(mappedBy = "branchTo")
-//    @JsonManagedReference
+
     private List<Rental> rentalsTo;
 
-//GETTERS AND SETTERS
 
     public Long getBranchId() {
         return branchId;

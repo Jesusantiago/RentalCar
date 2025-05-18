@@ -1,7 +1,6 @@
 package com.proyectofinal.car.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyectofinal.car.enums.StatusCar;
 import jakarta.persistence.*;
 
@@ -37,16 +36,11 @@ public class Car {
     private Branch branch;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
-//    @JsonManagedReference
     private List<Rental> listRentals;
-
-
-// GETTERS AND SETTERS
 
     public Long getCarId() {
         return carId;
     }
-
 
     public String getBrand() {
         return brand;

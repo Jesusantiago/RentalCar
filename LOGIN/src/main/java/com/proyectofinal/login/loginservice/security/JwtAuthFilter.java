@@ -1,4 +1,5 @@
 package com.proyectofinal.login.loginservice.security;
+
 import com.proyectofinal.login.loginservice.security.CustomUserDetail;
 
 import com.proyectofinal.login.loginservice.model.User;
@@ -49,7 +50,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private String getTokenFromHeader(HttpServletRequest httpSR){
+    private String getTokenFromHeader(HttpServletRequest httpSR) {
         String header = httpSR.getHeader("Authorization");
         if (header != null && header.startsWith("Bearer ")) {
             return header.substring(7);
@@ -60,19 +61,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
-//        String method = request.getMethod();
-//
-//        // Excluir loginy H2 Console
-//        if (path.startsWith("/api/auth/login") || path.startsWith("/h2-console")) {
-//            return true;
-//        }
-//
-//        // Excluir solo POST /api/users/register
-//        if (path.equals("/api/users/register") && method.equals("POST")) {
-//            return true;
-//        }
-
-//        return false;
 
         return path.equals("/api/auth/login") || path.equals("/api/users/register") || path.startsWith("/h2-console");
     }

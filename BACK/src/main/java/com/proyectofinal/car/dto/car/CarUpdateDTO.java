@@ -11,8 +11,6 @@ public class CarUpdateDTO {
     private Long branchId;
     private StatusCar statusCar;
 
-    //Getters and Setters
-
     public String getBrand() {
         return brand;
     }

@@ -69,7 +69,7 @@ fun AllBranchesScreen(
             horizontalArrangement = Arrangement.Absolute.SpaceAround
         ) {
             Button(
-                onClick = {viewModel.deleteBranch(11L)},
+                onClick = {viewModel.deleteBranch(13L)},
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.error ,
                     contentColor = Color.White

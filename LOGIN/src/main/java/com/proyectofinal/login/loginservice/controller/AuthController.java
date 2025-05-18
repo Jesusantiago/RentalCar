@@ -31,21 +31,19 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         System.out.println("Entrando al login...");
-        try{
+        try {
             User user = userService.findByEmail(loginRequest.getEmail());
 
             System.out.println("User: " + user);
 
-            if (! passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Correo o contraseña no validos.");
             }
-
-
 
             String token = jwtUtil.generateToken(user.getEmail());
             return ResponseEntity.ok().body(new LoginResponseDTO(token, user.getId(), user.getUserName(), user.getLicenseType()));
 
-        } catch (UserNotFoundException e){
+        } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no encontrado.");
         }
     }

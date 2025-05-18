@@ -17,7 +17,7 @@ public class CarUserController {
         this.carService = carService;
     }
 
-    // Obtiene todos los autos disponibles (PANTALLA PRINCIPAL)
+
     @GetMapping
     public ResponseEntity<Page<CarPreviewDTO>> getAvailableCars(
             @RequestParam(defaultValue = "0") int page,
@@ -29,14 +29,14 @@ public class CarUserController {
         return ResponseEntity.ok(availableCars);
     }
 
-    // Obtiene los datos de un Car buscado por un ID (CAR Details)
+
     @GetMapping("/{id}")
     public ResponseEntity<CarDetailsDTO> getCarById(@PathVariable("id") Long id) {
         CarDetailsDTO result = carService.getCarById(id);
         return ResponseEntity.ok(result);
     }
 
-    // Obtiene por filtros para Usuario
+
     @GetMapping("/search")
     public ResponseEntity<Page<CarPreviewDTO>> searchAvailableCarsForUser(
             @RequestParam(defaultValue = "0") int page,

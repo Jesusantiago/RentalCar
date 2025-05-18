@@ -41,7 +41,6 @@ public class Rental {
     @JoinColumn(name = "branch_to_id")
     private Branch branchTo;
 
-    // GETTERS AND SETTERS
     public Long getRentalId() {
         return rentalId;
     }

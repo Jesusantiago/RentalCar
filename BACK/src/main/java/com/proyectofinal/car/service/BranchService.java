@@ -28,11 +28,8 @@ public class BranchService {
             branchDTO.setName(branch.getName());
             branchesDTO.add(branchDTO);
         });
-
-
         return branchesDTO;
     }
-
 
     public Branch updateBranch(Long id, BranchDTO branchDTO) {
         Branch branch = branchRepository.findById(id)
@@ -63,4 +60,3 @@ public class BranchService {
         );
     }
 }
-

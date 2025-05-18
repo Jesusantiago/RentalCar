@@ -26,7 +26,7 @@ public class CarAdminController {
     @Autowired
     private CarRepository carRepository;
 
-    // Obtiene por filtros para Usuario
+
     @GetMapping("/search")
     public ResponseEntity<Page<CarPreviewDTO>> searchAvailableCarsForAdmin(
             @RequestParam(defaultValue = "0") int page,

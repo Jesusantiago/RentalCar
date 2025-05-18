@@ -25,7 +25,6 @@ public class CarRegisterDTO {
     @NotBlank (message = "Este mensaje no puede estar vacío.")
     private Long branch;
 
-    //GETTERS AND SETTERS
 
     public String getBrand() {
         return brand;
