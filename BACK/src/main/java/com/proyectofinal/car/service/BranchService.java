@@ -1,5 +1,6 @@
 package com.proyectofinal.car.service;
 
+import com.proyectofinal.car.dto.branch.BranchDTO;
 import com.proyectofinal.car.dto.branch.BranchNewCarDTO;
 import com.proyectofinal.car.model.Branch;
 import com.proyectofinal.car.repository.BranchRepository;
@@ -31,4 +32,35 @@ public class BranchService {
 
         return branchesDTO;
     }
+
+
+    public Branch updateBranch(Long id, BranchDTO branchDTO) {
+        Branch branch = branchRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Branch not found with id " + id));
+
+        branch.setName(branchDTO.getName());
+        branch.setAddress(branchDTO.getAddress());
+        branch.setCity(branchDTO.getCity());
+        branch.setPhone(branchDTO.getPhone());
+
+        return branchRepository.save(branch);
+    }
+
+    public BranchDTO createBranch(BranchDTO branchDTO) {
+        Branch branch = new Branch();
+        branch.setName(branchDTO.getName());
+        branch.setAddress(branchDTO.getAddress());
+        branch.setCity(branchDTO.getCity());
+        branch.setPhone(branchDTO.getPhone());
+
+        Branch savedBranch = branchRepository.save(branch);
+
+        return new BranchDTO(
+                savedBranch.getName(),
+                savedBranch.getAddress(),
+                savedBranch.getCity(),
+                savedBranch.getPhone()
+        );
+    }
 }
+

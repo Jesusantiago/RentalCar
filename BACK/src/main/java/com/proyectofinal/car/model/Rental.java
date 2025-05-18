@@ -31,15 +31,14 @@ public class Rental {
     @JoinColumn(name ="car_id", nullable = false)
     private Car car;
 
-    @Column(nullable = false)
     private Long clientId;
 
     @ManyToOne
-    @JoinColumn(name = "branch_from_id", nullable = false)
+    @JoinColumn(name = "branch_from_id")
     private Branch branchFrom;
 
     @ManyToOne
-    @JoinColumn(name = "branch_to_id", nullable = false)
+    @JoinColumn(name = "branch_to_id")
     private Branch branchTo;
 
     // GETTERS AND SETTERS

@@ -1,5 +1,6 @@
 package com.proyectofinal.car.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -24,13 +25,16 @@ public class Branch {
     @Column(nullable = false)
     private String phone;
 
-    @OneToMany( mappedBy = "branch", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Car> cars;
 
     @OneToMany(mappedBy = "branchFrom")
+//    @JsonManagedReference
     private List<Rental> rentalsFrom;
 
     @OneToMany(mappedBy = "branchTo")
+//    @JsonManagedReference
     private List<Rental> rentalsTo;
 
 //GETTERS AND SETTERS

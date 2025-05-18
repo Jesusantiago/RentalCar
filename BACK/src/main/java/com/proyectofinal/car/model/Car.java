@@ -1,5 +1,7 @@
 package com.proyectofinal.car.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.proyectofinal.car.enums.StatusCar;
 import jakarta.persistence.*;
 
@@ -31,9 +33,11 @@ public class Car {
 
     @ManyToOne
     @JoinColumn(name = "branch_id", nullable = false)
+    @JsonBackReference
     private Branch branch;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
+//    @JsonManagedReference
     private List<Rental> listRentals;
 
 
