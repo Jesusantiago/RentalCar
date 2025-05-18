@@ -106,7 +106,7 @@ fun UpdateBranchScreen(viewModel: HomeViewModel, paddingValues: PaddingValues, n
             Button(
                 onClick = {
                     val updatedBranch = BranchDTO(name, address, city, phone)
-                    viewModel.updateBranch(1L, updatedBranch)
+                    viewModel.updateBranch(8L, updatedBranch)
                     navController.navigate("branchDetail")
                 },
                 colors = ButtonDefaults.buttonColors(

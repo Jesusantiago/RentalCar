@@ -42,7 +42,7 @@ class HomeViewModel : ViewModel(){
 
     init {
         getCars()
-        getBranch(1L)
+        getBranch(7L)
     }
 
     fun resetAndFetchCars() {

@@ -43,7 +43,7 @@ fun AddBranchScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(
-                top = 32.dp,
+                top = 55.dp,
                 start = 16.dp,
                 end = 16.dp,
                 bottom = paddingValues.calculateBottomPadding()

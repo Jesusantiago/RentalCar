@@ -53,7 +53,6 @@ public class BranchAdminController {
     public ResponseEntity<Branch> getBranchById(@PathVariable Long id) {
         System.out.println(branchRepository.findAll());
         Optional<Branch> branchOpt = branchRepository.findById(id);
-        System.out.println("BRaNCH mas get" + branchOpt.get());
         if (branchOpt.isPresent()) {
             Branch branch = branchOpt.get();
             return ResponseEntity.ok(branch);
